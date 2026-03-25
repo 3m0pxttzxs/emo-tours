@@ -2,23 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import TestimonialCard from "@/components/tours/TestimonialCard";
+import { weekdayName, formatPrice } from "@/lib/schedule";
 import type { Tour } from "@/types";
 
 export const revalidate = 3600;
-
-/* ── Fallback data when Supabase is unavailable ── */
-const fallbackTours: Tour[] = [
-  {
-    id: "1", title: "Historic Center Tour", slug: "historic-center",
-    short_description: "Walk through centuries of history in the heart of Mexico City.",
-    full_description: "", cover_image: "https://images.unsplash.com/photo-1518659526054-190340b32735?w=1200&q=80",
-    gallery_images: [], area: "Centro Histórico", duration: "4 Hours", meeting_point: "Zócalo Plaza",
-    language: "EN / ES", type: "shared", base_price: 20, price_label: "$20 / person",
-    capacity_default: 12, active: true, published: true, featured: true,
-    highlights: [], included_items: [], faq_items: [],
-    schedule_day: "Tuesday", schedule_time: "10:00", created_at: "", updated_at: "",
-  },
-];
 
 async function getWeeklyTours(): Promise<Tour[]> {
   try {
@@ -27,19 +14,26 @@ async function getWeeklyTours(): Promise<Tour[]> {
       .select("*")
       .eq("published", true)
       .eq("active", true)
-      .not("schedule_day", "is", null);
-    if (error || !data || data.length === 0) return fallbackTours;
+      .not("weekday", "is", null);
+    if (error || !data || data.length === 0) return [];
     return data as Tour[];
   } catch {
-    return fallbackTours;
+    return [];
   }
 }
 
-function formatTime(time: string): string {
+function fmtTime(time: string | null): string {
+  if (!time) return "";
   const [h, m] = time.split(":").map(Number);
   const period = h >= 12 ? "PM" : "AM";
   const hour = h % 12 || 12;
   return m === 0 ? `${hour}:00 ${period}` : `${hour}:${String(m).padStart(2, "0")} ${period}`;
+}
+
+function dayLabel(tour: Tour): string {
+  const name = weekdayName(tour.weekday);
+  if (!name) return "By request";
+  return `${name}s at ${fmtTime(tour.departure_time)}`;
 }
 
 export default async function HomePage() {
@@ -114,7 +108,7 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                 <span className="inline-block bg-[#4CBB17] text-[#1c1b1b] text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
-                  {tours[0].schedule_day}s at {formatTime(tours[0].schedule_time!)}
+                  {dayLabel(tours[0])}
                 </span>
                 <h3 className="font-heading font-bold text-2xl md:text-3xl text-white leading-tight">{tours[0].title}</h3>
                 <p className="text-white/70 text-sm mt-2 max-w-md line-clamp-2">{tours[0].short_description}</p>
@@ -135,10 +129,10 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[1].cover_image} alt={tours[1].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{tours[1].schedule_day}s</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[1])</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[1].title}</h3>
                 <div className="flex items-center justify-between mt-3">
-                  <span className="text-white/60 text-sm">${tours[1].base_price} / person · {formatTime(tours[1].schedule_time!)}</span>
+                  <span className="text-white/60 text-sm">${tours[1].base_price} / person · {fmtTime(tours[1].departure_time)}</span>
                   <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
               </div>
@@ -151,10 +145,10 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[2].cover_image} alt={tours[2].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 42vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{tours[2].schedule_day}s</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[2])</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[2].title}</h3>
                 <div className="flex items-center justify-between mt-3">
-                  <span className="text-white/60 text-sm">${tours[2].base_price} / person · {formatTime(tours[2].schedule_time!)}</span>
+                  <span className="text-white/60 text-sm">${tours[2].base_price} / person · {fmtTime(tours[2].departure_time)}</span>
                   <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
               </div>
@@ -167,10 +161,10 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[3].cover_image} alt={tours[3].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 58vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{tours[3].schedule_day}s</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[3])</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[3].title}</h3>
                 <div className="flex items-center justify-between mt-3">
-                  <span className="text-white/60 text-sm">${tours[3].base_price} / person · {formatTime(tours[3].schedule_time!)}</span>
+                  <span className="text-white/60 text-sm">${tours[3].base_price} / person · {fmtTime(tours[3].departure_time)}</span>
                   <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
               </div>
@@ -183,10 +177,10 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[4].cover_image} alt={tours[4].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{tours[4].schedule_day}s</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[4])</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[4].title}</h3>
                 <div className="flex items-center justify-between mt-3">
-                  <span className="text-white/60 text-sm">${tours[4].base_price} / person · {formatTime(tours[4].schedule_time!)}</span>
+                  <span className="text-white/60 text-sm">${tours[4].base_price} / person · {fmtTime(tours[4].departure_time)}</span>
                   <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
               </div>
@@ -199,10 +193,10 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[5].cover_image} alt={tours[5].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{tours[5].schedule_day}s</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[5])</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[5].title}</h3>
                 <div className="flex items-center justify-between mt-3">
-                  <span className="text-white/60 text-sm">${tours[5].base_price} / person · {formatTime(tours[5].schedule_time!)}</span>
+                  <span className="text-white/60 text-sm">${tours[5].base_price} / person · {fmtTime(tours[5].departure_time)}</span>
                   <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
               </div>
