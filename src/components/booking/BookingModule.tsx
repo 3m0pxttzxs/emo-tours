@@ -83,9 +83,7 @@ export default function BookingModule({ tour, departures }: BookingModuleProps) 
           <AvailabilitySelector
             departures={departures}
             selectedDate={selectedDate}
-            selectedTime={null}
             onSelectDate={setSelectedDate}
-            onSelectTime={() => {}}
           />
           <GuestCounter value={guestCount} onChange={setGuestCount} />
         </div>
