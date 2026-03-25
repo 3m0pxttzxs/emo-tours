@@ -1,0 +1,591 @@
+import Image from "next/image";
+import Link from "next/link";
+import { supabaseAdmin } from "@/lib/supabase/server";
+import TestimonialCard from "@/components/tours/TestimonialCard";
+import type { Tour } from "@/types";
+
+export const revalidate = 3600;
+
+/* ── Fallback data when Supabase is unavailable ── */
+const fallbackTours: Tour[] = [
+  {
+    id: "1",
+    title: "Historic Center Tour",
+    slug: "historic-center",
+    short_description:
+      "Walk through centuries of history in the heart of Mexico City — from Aztec ruins to colonial masterpieces.",
+    full_description: "",
+    cover_image:
+      "https://images.unsplash.com/photo-1518659526054-190340b32735?w=1200&q=80",
+    gallery_images: [],
+    area: "Centro Histórico",
+    duration: "4.5 Hours",
+    meeting_point: "Zócalo Plaza",
+    language: "EN / ES",
+    type: "shared",
+    base_price: 120,
+    price_label: "$120/person",
+    capacity_default: 8,
+    active: true,
+    published: true,
+    featured: true,
+    highlights: [],
+    included_items: [],
+    faq_items: [],
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "2",
+    title: "Bellas Artes + Alameda Tour",
+    slug: "bellas-artes-alameda",
+    short_description:
+      "Discover the artistic jewel of Mexico City — from Art Nouveau grandeur to peaceful park strolls.",
+    full_description: "",
+    cover_image:
+      "https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=1200&q=80",
+    gallery_images: [],
+    area: "Bellas Artes / Alameda",
+    duration: "3 Hours",
+    meeting_point: "Palacio de Bellas Artes",
+    language: "EN / ES",
+    type: "shared",
+    base_price: 85,
+    price_label: "$85/person",
+    capacity_default: 6,
+    active: true,
+    published: true,
+    featured: true,
+    highlights: [],
+    included_items: [],
+    faq_items: [],
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "3",
+    title: "Coyoacán Tour",
+    slug: "coyoacan",
+    short_description:
+      "Wander the cobblestone streets of Frida Kahlo's beloved neighborhood — art, culture, and local flavors.",
+    full_description: "",
+    cover_image:
+      "https://images.unsplash.com/photo-1568736333610-eae6e0ab0f68?w=1200&q=80",
+    gallery_images: [],
+    area: "Coyoacán",
+    duration: "5 Hours",
+    meeting_point: "Jardín Centenario",
+    language: "EN / ES",
+    type: "private",
+    base_price: 150,
+    price_label: "$150/person",
+    capacity_default: 10,
+    active: true,
+    published: true,
+    featured: true,
+    highlights: [],
+    included_items: [],
+    faq_items: [],
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "4",
+    title: "Custom Private Tour",
+    slug: "custom-private-tour",
+    short_description:
+      "Design your own Mexico City experience — tell us your interests and we'll craft the perfect itinerary.",
+    full_description: "",
+    cover_image:
+      "https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=1200&q=80",
+    gallery_images: [],
+    area: "CDMX",
+    duration: "Flexible",
+    meeting_point: "To be arranged",
+    language: "EN / ES",
+    type: "custom",
+    base_price: 0,
+    price_label: "Quote",
+    capacity_default: 1,
+    active: true,
+    published: true,
+    featured: true,
+    highlights: [],
+    included_items: [],
+    faq_items: [],
+    created_at: "",
+    updated_at: "",
+  },
+];
+
+async function getFeaturedTours(): Promise<Tour[]> {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("tours")
+      .select("*")
+      .eq("published", true)
+      .eq("active", true)
+      .eq("featured", true);
+
+    if (error || !data || data.length === 0) return fallbackTours;
+    return data as Tour[];
+  } catch {
+    return fallbackTours;
+  }
+}
+
+export default async function HomePage() {
+  const tours = await getFeaturedTours();
+
+  // Split tours for the bento grid
+  const bentoTours = tours.slice(0, 3);
+  const customTour = tours.find((t) => t.type === "custom") ?? tours[3];
+
+  return (
+    <div className="-mt-[72px]">
+      {/* ═══════════════ HERO SECTION ═══════════════ */}
+      <HeroSection />
+
+      {/* ═══════════════ SIGNATURE EXPERIENCES ═══════════════ */}
+      <SignatureExperiences tours={bentoTours} customTour={customTour} />
+
+      {/* ═══════════════ WHY EMO TOURS ═══════════════ */}
+      <WhyEmoTours />
+
+      {/* ═══════════════ HOW IT WORKS ═══════════════ */}
+      <HowItWorks />
+
+      {/* ═══════════════ TESTIMONIALS ═══════════════ */}
+      <Testimonials />
+
+      {/* ═══════════════ FINAL CTA ═══════════════ */}
+      <FinalCTA />
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────
+   HERO
+   ──────────────────────────────────────────────────── */
+function HeroSection() {
+  return (
+    <section className="relative min-h-screen flex items-end pb-20 md:pb-28 overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="https://images.unsplash.com/photo-1518659526054-190340b32735?w=1920&q=80"
+        alt="Mexico City skyline"
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
+      />
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+
+      <div className="relative z-10 mx-auto max-w-[1440px] w-full px-6">
+        <h1 className="text-5xl sm:text-6xl md:text-8xl font-heading font-black uppercase text-white leading-[0.9] tracking-tighter max-w-4xl">
+          Not your average Mexico City tour.
+        </h1>
+        <p className="mt-6 text-lg md:text-xl text-white/70 max-w-xl leading-relaxed">
+          Curated urban experiences led by locals who live it. Architecture,
+          food, nightlife, and culture — the real CDMX.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link
+            href="/tours"
+            className="inline-flex items-center bg-[#4CBB17] text-[#1c1b1b] rounded-full px-8 py-4 font-heading font-bold text-base hover:bg-[#3a960e] transition-colors"
+          >
+            Book a tour
+          </Link>
+          <Link
+            href="/tours"
+            className="inline-flex items-center border border-white text-white rounded-full px-8 py-4 font-heading font-bold text-base hover:bg-white/10 transition-colors"
+          >
+            Explore routes
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ────────────────────────────────────────────────────
+   SIGNATURE EXPERIENCES — Asymmetric Bento Grid
+   ──────────────────────────────────────────────────── */
+function SignatureExperiences({
+  tours,
+  customTour,
+}: {
+  tours: Tour[];
+  customTour?: Tour;
+}) {
+  return (
+    <section className="bg-[#fcf8f8] py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-6">
+        {/* Section header */}
+        <p className="text-[#4CBB17] font-heading font-bold text-sm uppercase tracking-widest mb-3">
+          Curated Journeys
+        </p>
+        <h2 className="font-heading font-black text-4xl md:text-6xl text-[#1c1b1b] tracking-tighter leading-[0.95]">
+          Signature Experiences
+        </h2>
+
+        {/* Bento grid */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Card 1 — Large horizontal (col-span-8) */}
+          {tours[0] && (
+            <Link
+              href={`/tours/${tours[0].slug}`}
+              className="group md:col-span-8 relative rounded-3xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px]"
+            >
+              <Image
+                src={tours[0].cover_image}
+                alt={tours[0].title}
+                fill
+                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 66vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                <span className="inline-block bg-[#4CBB17] text-[#1c1b1b] text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                  Best Seller
+                </span>
+                <h3 className="font-heading font-bold text-2xl md:text-3xl text-white leading-tight">
+                  {tours[0].title}
+                </h3>
+                <p className="text-white/70 text-sm mt-2 max-w-md line-clamp-2">
+                  {tours[0].short_description}
+                </p>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center gap-4 text-white/60 text-sm">
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-base">
+                        schedule
+                      </span>
+                      {tours[0].duration}
+                    </span>
+                    <span>${tours[0].base_price}/person</span>
+                  </div>
+                  <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Card 2 — Vertical (col-span-4) */}
+          {tours[1] && (
+            <Link
+              href={`/tours/${tours[1].slug}`}
+              className="group md:col-span-4 relative rounded-3xl overflow-hidden aspect-[4/5] md:aspect-auto md:min-h-[420px]"
+            >
+              <Image
+                src={tours[1].cover_image}
+                alt={tours[1].title}
+                fill
+                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="font-heading font-bold text-xl text-white leading-tight">
+                  {tours[1].title}
+                </h3>
+                <p className="text-white/70 text-sm mt-2 line-clamp-2">
+                  {tours[1].short_description}
+                </p>
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-white/60 text-sm">
+                    ${tours[1].base_price}/person
+                  </span>
+                  <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Card 3 — Square-ish (col-span-5) */}
+          {tours[2] && (
+            <Link
+              href={`/tours/${tours[2].slug}`}
+              className="group md:col-span-5 relative rounded-3xl overflow-hidden aspect-square md:aspect-auto md:min-h-[380px]"
+            >
+              <Image
+                src={tours[2].cover_image}
+                alt={tours[2].title}
+                fill
+                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 42vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="font-heading font-bold text-xl text-white leading-tight">
+                  {tours[2].title}
+                </h3>
+                <p className="text-white/70 text-sm mt-2 line-clamp-2">
+                  {tours[2].short_description}
+                </p>
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-white/60 text-sm">
+                    ${tours[2].base_price}/person
+                  </span>
+                  <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Card 4 — Custom tour block (col-span-7) */}
+          <div className="md:col-span-7 bg-[#1c1b1b] rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[380px]">
+            <div>
+              <span className="inline-block border border-white/20 text-white/60 text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+                Private Experience
+              </span>
+              <h3 className="font-heading font-bold text-3xl md:text-4xl text-white leading-tight tracking-tight">
+                {customTour?.title ?? "Custom Private Tour"}
+              </h3>
+              <p className="text-white/50 text-base mt-3 max-w-md leading-relaxed">
+                {customTour?.short_description ??
+                  "Design your own Mexico City experience — tell us your interests and we'll craft the perfect itinerary."}
+              </p>
+            </div>
+            <div className="mt-8">
+              <Link
+                href="/custom-tours"
+                className="inline-flex items-center gap-2 border border-[#4CBB17] text-[#4CBB17] rounded-full px-6 py-3 font-heading font-bold text-sm hover:bg-[#4CBB17] hover:text-[#1c1b1b] transition-colors"
+              >
+                Design your tour
+                <span className="material-symbols-outlined text-lg">
+                  arrow_forward
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ────────────────────────────────────────────────────
+   WHY EMO TOURS — 3 columns with large faded numbers
+   ──────────────────────────────────────────────────── */
+function WhyEmoTours() {
+  const reasons = [
+    {
+      num: "01",
+      title: "Local Perspective",
+      description:
+        "Our guides are born-and-raised locals who share the city's hidden stories, not just the tourist highlights.",
+    },
+    {
+      num: "02",
+      title: "Direct Booking",
+      description:
+        "No middlemen, no markups. Book directly with us and get the best price with instant confirmation.",
+    },
+    {
+      num: "03",
+      title: "Private Options",
+      description:
+        "Every tour can be private. Customize the experience to match your pace, interests, and schedule.",
+    },
+  ];
+
+  return (
+    <section className="bg-[#0A0A0A] py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-6">
+        <p className="text-[#4CBB17] font-heading font-bold text-sm uppercase tracking-widest mb-3">
+          The Difference
+        </p>
+        <h2 className="font-heading font-black text-4xl md:text-6xl text-white tracking-tighter leading-[0.95]">
+          Why EMO Tours
+        </h2>
+
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          {reasons.map((r) => (
+            <div key={r.num} className="relative">
+              {/* Large faded number */}
+              <span className="block font-heading font-black text-[120px] md:text-[160px] leading-none text-white/[0.04] select-none -mb-16 md:-mb-20">
+                {r.num}
+              </span>
+              <div className="relative z-10">
+                <h3 className="font-heading font-bold text-2xl text-white mb-3">
+                  {r.title}
+                </h3>
+                <p className="text-white/50 leading-relaxed">
+                  {r.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────
+   HOW IT WORKS — 3 steps
+   ──────────────────────────────────────────────────── */
+function HowItWorks() {
+  const steps = [
+    {
+      num: 1,
+      title: "Choose your route",
+      description:
+        "Browse our curated tours or design a custom experience tailored to your interests.",
+    },
+    {
+      num: 2,
+      title: "Pick a date",
+      description:
+        "Select from available dates and times that work with your schedule.",
+    },
+    {
+      num: 3,
+      title: "Reserve & Pay",
+      description:
+        "Secure your spot with instant online payment. You'll receive a confirmation email right away.",
+    },
+  ];
+
+  return (
+    <section className="bg-[#fcf8f8] py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-6">
+        <div className="text-center mb-16">
+          <p className="text-[#4CBB17] font-heading font-bold text-sm uppercase tracking-widest mb-3">
+            Simple Process
+          </p>
+          <h2 className="font-heading font-black text-4xl md:text-6xl text-[#1c1b1b] tracking-tighter leading-[0.95]">
+            How It Works
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-4xl mx-auto">
+          {steps.map((step, i) => (
+            <div key={step.num} className="flex flex-col items-center text-center relative">
+              {/* Numbered circle */}
+              <div className="w-16 h-16 rounded-full border-2 border-[#4CBB17] flex items-center justify-center mb-6">
+                <span className="font-heading font-bold text-xl text-[#4CBB17]">
+                  {step.num}
+                </span>
+              </div>
+
+              {/* Arrow connector (hidden on mobile and last item) */}
+              {i < steps.length - 1 && (
+                <div className="hidden md:block absolute top-8 left-[calc(50%+40px)] w-[calc(100%-80px)]">
+                  <div className="border-t-2 border-dashed border-[#4CBB17]/30 w-full" />
+                </div>
+              )}
+
+              <h3 className="font-heading font-bold text-xl text-[#1c1b1b] mb-2">
+                {step.title}
+              </h3>
+              <p className="text-[#78716c] text-sm leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ────────────────────────────────────────────────────
+   TESTIMONIALS — Dark section with large quote + side images
+   ──────────────────────────────────────────────────── */
+function Testimonials() {
+  return (
+    <section className="bg-[#0A0A0A] py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Testimonial card — spans 8 cols */}
+          <div className="lg:col-span-8">
+            <TestimonialCard
+              quote="This wasn't just a tour — it was a *deep dive into the soul* of Mexico City. Our guide knew every hidden corner and story."
+              name="Sarah M."
+              title="New York, USA"
+            />
+          </div>
+
+          {/* Side images grid — spans 4 cols */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-4">
+            <div className="relative rounded-2xl overflow-hidden aspect-square">
+              <Image
+                src="https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=400&q=80"
+                alt="Tour moment"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 50vw, 200px"
+              />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden aspect-square">
+              <Image
+                src="https://images.unsplash.com/photo-1568736333610-eae6e0ab0f68?w=400&q=80"
+                alt="Tour moment"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 50vw, 200px"
+              />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden aspect-square col-span-2">
+              <Image
+                src="https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=400&q=80"
+                alt="Tour moment"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 400px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────
+   FINAL CTA
+   ──────────────────────────────────────────────────── */
+function FinalCTA() {
+  return (
+    <section className="relative py-28 md:py-40 overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=1920&q=80"
+        alt="Mexico City"
+        fill
+        className="object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-black/70" />
+
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 text-center">
+        <h2 className="font-heading font-black text-4xl sm:text-5xl md:text-7xl text-white uppercase tracking-tighter leading-[0.9] max-w-3xl mx-auto">
+          Explore CDMX like a local
+        </h2>
+        <p className="mt-6 text-white/60 text-lg max-w-md mx-auto">
+          Ready to discover the real Mexico City? Book your experience today.
+        </p>
+        <div className="mt-8">
+          <Link
+            href="/tours"
+            className="inline-flex items-center bg-[#4CBB17] text-[#1c1b1b] rounded-full px-10 py-4 font-heading font-bold text-lg hover:bg-[#3a960e] transition-colors"
+          >
+            Book Now
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
