@@ -26,7 +26,7 @@ export async function sendBookingConfirmationEmail(params: BookingConfirmationPa
     const { customerEmail, customerName, tourTitle, date, time, guestCount, total, meetingPoint } = params;
 
     await resend.emails.send({
-      from: 'EMO Tours CDMX <bookings@emotours.mx>',
+      from: 'EMO Tours CDMX <onboarding@resend.dev>',
       to: customerEmail,
       subject: 'Your EMO Tours booking is confirmed! 🎉',
       html: `
@@ -93,7 +93,7 @@ export async function sendAdminNotificationEmail(params: AdminNotificationParams
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@emotours.mx';
 
     await resend.emails.send({
-      from: 'EMO Tours CDMX <bookings@emotours.mx>',
+      from: 'EMO Tours CDMX <onboarding@resend.dev>',
       to: adminEmail,
       subject: `New Custom Tour Request from ${customerName}`,
       html: `
