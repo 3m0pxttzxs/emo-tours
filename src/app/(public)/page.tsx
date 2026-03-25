@@ -129,7 +129,7 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[1].cover_image} alt={tours[1].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[1])</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[1])}</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[1].title}</h3>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-white/60 text-sm">${tours[1].base_price} / person · {fmtTime(tours[1].departure_time)}</span>
@@ -145,7 +145,7 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[2].cover_image} alt={tours[2].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 42vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[2])</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[2])}</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[2].title}</h3>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-white/60 text-sm">${tours[2].base_price} / person · {fmtTime(tours[2].departure_time)}</span>
@@ -161,7 +161,7 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[3].cover_image} alt={tours[3].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 58vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[3])</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[3])}</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[3].title}</h3>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-white/60 text-sm">${tours[3].base_price} / person · {fmtTime(tours[3].departure_time)}</span>
@@ -177,7 +177,7 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[4].cover_image} alt={tours[4].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[4])</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[4])}</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[4].title}</h3>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-white/60 text-sm">${tours[4].base_price} / person · {fmtTime(tours[4].departure_time)}</span>
@@ -193,7 +193,7 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
               <Image src={tours[5].cover_image} alt={tours[5].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[5])</span>
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[5])}</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[5].title}</h3>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-white/60 text-sm">${tours[5].base_price} / person · {fmtTime(tours[5].departure_time)}</span>
