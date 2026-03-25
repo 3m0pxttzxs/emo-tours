@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
         line_items: [
           {
             price_data: {
-              currency: 'mxn',
+              currency: 'usd',
               product_data: {
                 name: typedTour.title,
               },

@@ -32,6 +32,8 @@ export interface Tour {
   highlights: string[];
   included_items: string[];
   faq_items: FaqItem[];
+  weekday: number | null;       // 0=Sun, 1=Mon, ..., 6=Sat. null for request-only
+  departure_time: string | null; // e.g. "10:00", "08:00". null for request-only
   created_at: string;
   updated_at: string;
 }

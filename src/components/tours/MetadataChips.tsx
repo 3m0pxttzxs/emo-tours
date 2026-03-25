@@ -5,16 +5,23 @@ interface MetadataChipsProps {
   language: string;
   tourType: string;
   availability: string;
+  schedule?: string;
 }
 
-const items = (props: MetadataChipsProps) => [
-  { label: "Area", value: props.area },
-  { label: "Duration", value: props.duration },
-  { label: "Meeting Point", value: props.meetingPoint },
-  { label: "Language", value: props.language },
-  { label: "Tour Type", value: props.tourType },
-  { label: "Availability", value: props.availability },
-];
+const items = (props: MetadataChipsProps) => {
+  const chips = [
+    { label: "Area", value: props.area },
+    { label: "Duration", value: props.duration },
+    { label: "Meeting Point", value: props.meetingPoint },
+    { label: "Language", value: props.language },
+    { label: "Tour Type", value: props.tourType },
+    { label: "Availability", value: props.availability },
+  ];
+  if (props.schedule) {
+    chips.push({ label: "Schedule", value: props.schedule });
+  }
+  return chips;
+};
 
 export default function MetadataChips(props: MetadataChipsProps) {
   const chips = items(props);

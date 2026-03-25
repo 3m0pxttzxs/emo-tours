@@ -73,7 +73,7 @@ export default async function ConfirmationPage({
   // Format date
   const dateObj = new Date(departure.date + "T00:00:00");
   const formattedDate = dateObj.toLocaleDateString("en-US", {
-    weekday: "short",
+    weekday: "long",
     month: "short",
     day: "numeric",
     year: "numeric",

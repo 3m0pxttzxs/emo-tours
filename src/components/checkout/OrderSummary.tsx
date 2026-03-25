@@ -64,7 +64,7 @@ export default function OrderSummary({
           {/* Price breakdown */}
           <div className="space-y-3">
             <div className="flex justify-between text-sm text-[#78716c]">
-              <span>${basePrice} × {guestCount} {guestCount === 1 ? "guest" : "guests"}</span>
+              <span>${basePrice} / person × {guestCount} {guestCount === 1 ? "guest" : "guests"}</span>
               <span>${total}</span>
             </div>
             <div className="flex justify-between text-sm text-[#78716c]">

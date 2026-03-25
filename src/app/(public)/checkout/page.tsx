@@ -52,7 +52,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
   // Format date for display
   const dateObj = new Date(departure.date + "T00:00:00");
   const formattedDate = dateObj.toLocaleDateString("en-US", {
-    weekday: "short",
+    weekday: "long",
     month: "short",
     day: "numeric",
     year: "numeric",
