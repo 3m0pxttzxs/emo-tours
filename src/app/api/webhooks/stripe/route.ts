@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { reduceSpots } from '@/lib/capacity';
 import { sendBookingConfirmationEmail } from '@/lib/emails';
 import { createCalendarEvent } from '@/lib/google-calendar';
+import { createReviewForBooking } from '@/lib/review-tokens';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
@@ -148,6 +149,18 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       guestCount: fullBooking.guest_count,
       meetingPoint: tour.meeting_point,
     });
+
+    // Create review token for post-tour review request
+    try {
+      await createReviewForBooking(
+        bookingId,
+        booking.tour_id,
+        fullBooking.customer_full_name,
+      );
+    } catch (reviewError) {
+      console.error('Webhook: Failed to create review token', { bookingId, error: reviewError });
+      // Don't affect the webhook flow
+    }
   }
 }
 

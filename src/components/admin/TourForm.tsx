@@ -378,7 +378,7 @@ export default function TourForm({ tour, mode }: TourFormProps) {
               value={highlightsText}
               onChange={(e) => setHighlightsText(e.target.value)}
               rows={5}
-              className="w-full bg-white border border-[#ebe7e7]/20 rounded-xl py-4 px-5 text-sm focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
+              className="w-full bg-white border border-[#ebe7e7]/20 rounded-xl py-4 px-5 text-sm text-[#1c1b1b] focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
               placeholder={"Visit the Zócalo\nExplore Templo Mayor\nTaste local food"}
             />
           </div>
@@ -390,7 +390,7 @@ export default function TourForm({ tour, mode }: TourFormProps) {
               value={includedText}
               onChange={(e) => setIncludedText(e.target.value)}
               rows={5}
-              className="w-full bg-white border border-[#ebe7e7]/20 rounded-xl py-4 px-5 text-sm focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
+              className="w-full bg-white border border-[#ebe7e7]/20 rounded-xl py-4 px-5 text-sm text-[#1c1b1b] focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
               placeholder={"Professional guide\nBottled water\nSnacks"}
             />
           </div>

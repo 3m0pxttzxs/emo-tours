@@ -10,7 +10,7 @@ const sections = [
   { title: "Sharing of Information", body: "We do not share, sell, or rent your personal information to third parties. Your data is only shared with payment processors (Stripe) and email providers (Resend) as needed to deliver our service." },
   { title: "Data Retention", body: "We retain booking data for operational and legal purposes. You may request deletion of your personal data at any time by contacting us." },
   { title: "Your Rights", body: "You have the right to access, correct, or delete your personal data. You may also opt out of marketing communications at any time." },
-  { title: "Contact", body: "For privacy-related questions, reach us at hello@emo-tours.org" },
+  { title: "Contact", body: "For privacy-related questions, reach us at inkedsad@gmail.com" },
 ];
 
 export default function PrivacyPage() {

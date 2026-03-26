@@ -69,7 +69,7 @@ export default function BookingsManager({ initialBookings }: Props) {
   }
 
   function formatCurrency(amount: number) {
-    return `$${amount.toLocaleString("en-US", { minimumFractionDigits: 0 })}`;
+    return `${amount.toLocaleString("en-US", { minimumFractionDigits: 0 })}`;
   }
 
   return (
@@ -81,11 +81,11 @@ export default function BookingsManager({ initialBookings }: Props) {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4 mb-6 flex-wrap">
+      <div className="flex gap-3 mb-6 flex-wrap">
         <select
           value={filterPaymentStatus}
           onChange={(e) => setFilterPaymentStatus(e.target.value)}
-          className="bg-white border border-[#ebe7e7] rounded-xl py-2.5 px-4 text-sm focus:border-[#4cbb17] outline-none"
+          className="bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-xs text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
         >
           <option value="">All Payment Status</option>
           <option value="pending">Pending</option>
@@ -97,13 +97,13 @@ export default function BookingsManager({ initialBookings }: Props) {
           type="date"
           value={filterDate}
           onChange={(e) => setFilterDate(e.target.value)}
-          className="bg-white border border-[#ebe7e7] rounded-xl py-2.5 px-4 text-sm focus:border-[#4cbb17] outline-none"
+          className="bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-xs text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
           placeholder="Filter by departure date"
         />
         {(filterPaymentStatus || filterDate) && (
           <button
             onClick={() => { setFilterPaymentStatus(""); setFilterDate(""); }}
-            className="text-[#78716c] hover:text-[#1c1b1b] text-sm underline"
+            className="text-[#78716c] hover:text-[#1c1b1b] text-xs underline"
           >
             Clear filters
           </button>
@@ -114,23 +114,24 @@ export default function BookingsManager({ initialBookings }: Props) {
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#ebe7e7]">
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Customer</th>
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Tour</th>
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Date</th>
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Time</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Guests</th>
-              <th className="text-right px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Total</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Payment</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Status</th>
-              <th className="text-right px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Actions</th>
+            <tr className="border-b border-[#ebe7e7] bg-[#fafaf9]">
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Customer</th>
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Tour</th>
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Date</th>
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Time</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Guests</th>
+              <th className="text-right px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Total</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Payment</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Status</th>
+              <th className="text-right px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((booking) => (
+            {filtered.map((booking, i) => (
               <BookingRow
                 key={booking.id}
                 booking={booking}
+                index={i}
                 expanded={expandedId === booking.id}
                 onToggleExpand={() => setExpandedId(expandedId === booking.id ? null : booking.id)}
                 onCancel={() => handleCancel(booking.id)}
@@ -140,8 +141,9 @@ export default function BookingsManager({ initialBookings }: Props) {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={9} className="px-6 py-12 text-center text-[#78716c]">
-                  No bookings found.
+                <td colSpan={9} className="px-6 py-16 text-center">
+                  <span className="material-symbols-outlined text-[32px] text-[#d6d3d1] mb-2 block">confirmation_number</span>
+                  <p className="text-sm text-[#78716c]">No bookings found.</p>
                 </td>
               </tr>
             )}
@@ -154,6 +156,7 @@ export default function BookingsManager({ initialBookings }: Props) {
 
 interface BookingRowProps {
   booking: BookingWithRelations;
+  index: number;
   expanded: boolean;
   onToggleExpand: () => void;
   onCancel: () => void;
@@ -161,47 +164,47 @@ interface BookingRowProps {
   formatCurrency: (amount: number) => string;
 }
 
-function BookingRow({ booking, expanded, onToggleExpand, onCancel, loading, formatCurrency }: BookingRowProps) {
+function BookingRow({ booking, index, expanded, onToggleExpand, onCancel, loading, formatCurrency }: BookingRowProps) {
   return (
     <>
       <tr
-        className="border-b border-[#ebe7e7] last:border-b-0 hover:bg-[#f5f0ee]/50 transition-colors cursor-pointer"
+        className={`border-b border-[#ebe7e7] last:border-b-0 hover:bg-[#fafaf9] transition-colors cursor-pointer ${index % 2 === 1 ? "bg-[#fafaf9]/50" : ""}`}
         onClick={onToggleExpand}
       >
-        <td className="px-4 py-3 font-medium text-[#1c1b1b]">
+        <td className="px-4 py-2.5 font-medium text-[#1c1b1b]">
           {booking.customer_full_name}
         </td>
-        <td className="px-4 py-3 text-[#1c1b1b]">
+        <td className="px-4 py-2.5 text-[#1c1b1b]">
           {booking.tours?.title ?? "—"}
         </td>
-        <td className="px-4 py-3 text-[#1c1b1b]">
+        <td className="px-4 py-2.5 text-[#1c1b1b]">
           {booking.departures?.date ?? "—"}
         </td>
-        <td className="px-4 py-3 text-[#1c1b1b]">
+        <td className="px-4 py-2.5 text-[#1c1b1b]">
           {booking.departures?.time ?? "—"}
         </td>
-        <td className="px-4 py-3 text-center">{booking.guest_count}</td>
-        <td className="px-4 py-3 text-right font-medium">
+        <td className="px-4 py-2.5 text-center">{booking.guest_count}</td>
+        <td className="px-4 py-2.5 text-right font-medium">
           {formatCurrency(booking.total)}
         </td>
-        <td className="px-4 py-3 text-center">
+        <td className="px-4 py-2.5 text-center">
           <Badge
             text={booking.payment_status}
             variant={paymentBadgeVariant[booking.payment_status]}
           />
         </td>
-        <td className="px-4 py-3 text-center">
+        <td className="px-4 py-2.5 text-center">
           <Badge
             text={booking.booking_status}
             variant={bookingBadgeVariant[booking.booking_status]}
           />
         </td>
-        <td className="px-4 py-3 text-right">
+        <td className="px-4 py-2.5 text-right">
           {booking.booking_status !== "cancelled" && (
             <button
               onClick={(e) => { e.stopPropagation(); onCancel(); }}
               disabled={loading}
-              className="text-red-600 hover:underline text-sm font-medium disabled:opacity-50"
+              className="text-red-600 hover:underline text-xs font-medium disabled:opacity-50"
             >
               Cancel
             </button>
@@ -209,32 +212,32 @@ function BookingRow({ booking, expanded, onToggleExpand, onCancel, loading, form
         </td>
       </tr>
       {expanded && (
-        <tr className="bg-[#f5f0ee]/30">
+        <tr className="bg-[#fafaf9]/60">
           <td colSpan={9} className="px-6 py-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">Email</p>
-                <p className="text-[#1c1b1b]">{booking.customer_email}</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">Email</p>
+                <p className="text-[#1c1b1b] font-body">{booking.customer_email}</p>
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">Phone</p>
-                <p className="text-[#1c1b1b]">{booking.customer_phone}</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">Phone</p>
+                <p className="text-[#1c1b1b] font-body">{booking.customer_phone}</p>
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">Subtotal</p>
-                <p className="text-[#1c1b1b]">{formatCurrency(booking.subtotal)}</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">Subtotal</p>
+                <p className="text-[#1c1b1b] font-body">{formatCurrency(booking.subtotal)}</p>
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">Stripe Session</p>
-                <p className="text-[#1c1b1b] truncate">{booking.stripe_session_id || "—"}</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">Stripe Session</p>
+                <p className="text-[#1c1b1b] font-body truncate">{booking.stripe_session_id || "—"}</p>
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">Payment Intent</p>
-                <p className="text-[#1c1b1b] truncate">{booking.stripe_payment_intent_id || "—"}</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">Payment Intent</p>
+                <p className="text-[#1c1b1b] font-body truncate">{booking.stripe_payment_intent_id || "—"}</p>
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">Created</p>
-                <p className="text-[#1c1b1b]">{new Date(booking.created_at).toLocaleString()}</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">Created</p>
+                <p className="text-[#1c1b1b] font-body">{new Date(booking.created_at).toLocaleString()}</p>
               </div>
             </div>
           </td>

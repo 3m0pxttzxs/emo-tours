@@ -314,28 +314,89 @@ function HowItWorks() {
 /* ────────────────────────────────────────────────────
    TESTIMONIALS
    ──────────────────────────────────────────────────── */
-function Testimonials() {
+async function Testimonials() {
+  let reviews: { reviewer_name: string; rating: number; comment: string; tour_title: string }[] = [];
+
+  try {
+    const { data } = await supabaseAdmin
+      .from("reviews")
+      .select("reviewer_name, rating, comment, tours(title)")
+      .eq("status", "approved")
+      .gte("rating", 4)
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    reviews = (data ?? []).map((r) => ({
+      reviewer_name: r.reviewer_name,
+      rating: r.rating,
+      comment: r.comment,
+      tour_title: ((r.tours as unknown as { title: string } | null))?.title ?? "EMO Tour",
+    }));
+  } catch {
+    // Fall through to fallback
+  }
+
+  // Fallback if no approved reviews yet
+  if (reviews.length === 0) {
+    return (
+      <section className="bg-[#0A0A0A] py-20 md:py-28">
+        <div className="mx-auto max-w-[1440px] px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8">
+              <TestimonialCard
+                quote="This wasn't just a tour — it was a *deep dive into the soul* of Mexico City. Our guide knew every hidden corner and story."
+                name="Sarah M."
+                title="New York, USA"
+              />
+            </div>
+            <div className="lg:col-span-4 grid grid-cols-2 gap-4">
+              <div className="relative rounded-2xl overflow-hidden aspect-square">
+                <Image src="https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="200px" />
+              </div>
+              <div className="relative rounded-2xl overflow-hidden aspect-square">
+                <Image src="https://images.unsplash.com/photo-1568736333610-eae6e0ab0f68?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="200px" />
+              </div>
+              <div className="relative rounded-2xl overflow-hidden aspect-square col-span-2">
+                <Image src="https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="400px" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-[#0A0A0A] py-20 md:py-28">
       <div className="mx-auto max-w-[1440px] px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8">
             <TestimonialCard
-              quote="This wasn't just a tour — it was a *deep dive into the soul* of Mexico City. Our guide knew every hidden corner and story."
-              name="Sarah M."
-              title="New York, USA"
+              quote={reviews[0].comment}
+              name={reviews[0].reviewer_name}
+              title={reviews[0].tour_title}
             />
           </div>
-          <div className="lg:col-span-4 grid grid-cols-2 gap-4">
-            <div className="relative rounded-2xl overflow-hidden aspect-square">
-              <Image src="https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="200px" />
-            </div>
-            <div className="relative rounded-2xl overflow-hidden aspect-square">
-              <Image src="https://images.unsplash.com/photo-1568736333610-eae6e0ab0f68?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="200px" />
-            </div>
-            <div className="relative rounded-2xl overflow-hidden aspect-square col-span-2">
-              <Image src="https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="400px" />
-            </div>
+          <div className="lg:col-span-4 flex flex-col gap-4">
+            {reviews.slice(1).map((r, i) => (
+              <div key={i} className="bg-[#1c1b1b] rounded-2xl p-6">
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: r.rating }).map((_, j) => (
+                    <span key={j} className="material-symbols-outlined text-[#4cbb17] text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                  ))}
+                </div>
+                <p className="text-white/80 text-sm leading-relaxed line-clamp-4 italic">&ldquo;{r.comment}&rdquo;</p>
+                <div className="mt-3">
+                  <p className="text-white font-bold text-sm">{r.reviewer_name}</p>
+                  <p className="text-white/40 text-xs">{r.tour_title}</p>
+                </div>
+              </div>
+            ))}
+            {reviews.length === 1 && (
+              <div className="relative rounded-2xl overflow-hidden aspect-video">
+                <Image src="https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=400&q=80" alt="Tour moment" fill className="object-cover" sizes="400px" />
+              </div>
+            )}
           </div>
         </div>
       </div>

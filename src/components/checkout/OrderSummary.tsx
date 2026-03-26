@@ -107,8 +107,8 @@ export default function OrderSummary({
       <div className="bg-white rounded-xl p-5 shadow-[0_8px_24px_rgba(28,27,27,0.04)] text-center">
         <p className="text-sm text-[#78716c]">
           Need assistance?{" "}
-          <a href="mailto:hello@emotours.mx" className="text-[#4CBB17] font-medium hover:underline">
-            hello@emotours.mx
+          <a href="mailto:inkedsad@gmail.com" className="text-[#4CBB17] font-medium hover:underline">
+            inkedsad@gmail.com
           </a>
         </p>
       </div>

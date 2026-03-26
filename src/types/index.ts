@@ -108,3 +108,40 @@ export interface CustomRequestPayload {
   interests: string;
   notes?: string;
 }
+
+// Review system types
+
+export type ReviewStatus = 'pending' | 'approved' | 'rejected';
+
+export interface Review {
+  id: string;
+  booking_id: string | null;
+  tour_id: string | null;
+  reviewer_name: string;
+  rating: number;
+  comment: string;
+  photo_url: string | null;
+  status: ReviewStatus;
+  review_token: string;
+  token_used: boolean;
+  email_sent: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReviewSubmissionPayload {
+  token: string;
+  rating: number;
+  comment: string;
+  photo_url?: string;
+}
+
+export interface ManualTokenRequest {
+  reviewer_name: string;
+  email: string;
+  tour_name: string;
+}
+
+export interface ReviewWithTour extends Review {
+  tour_title: string;
+}

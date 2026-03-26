@@ -134,3 +134,87 @@ export function validateCustomRequest(data: unknown): ValidationResult {
     }),
   };
 }
+
+export function validateReviewSubmission(data: unknown): ValidationResult {
+  const errors: Record<string, string> = {};
+
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: { _form: 'Invalid data' } };
+  }
+
+  const d = data as Record<string, unknown>;
+
+  const token = typeof d.token === 'string' ? d.token.trim() : '';
+  const rating = d.rating;
+  const comment = typeof d.comment === 'string' ? sanitize(d.comment) : '';
+  const photo_url = typeof d.photo_url === 'string' ? sanitize(d.photo_url) : undefined;
+
+  if (!token) {
+    errors.token = 'Token is required';
+  }
+
+  if (
+    rating == null ||
+    typeof rating !== 'number' ||
+    !Number.isInteger(rating) ||
+    rating < 1 ||
+    rating > 5
+  ) {
+    errors.rating = 'Rating must be an integer between 1 and 5';
+  }
+
+  if (!comment || comment.length < 10) {
+    errors.comment = 'Comment must be at least 10 characters';
+  }
+
+  const valid = Object.keys(errors).length === 0;
+
+  return {
+    valid,
+    errors,
+    ...(valid && {
+      sanitized: {
+        token,
+        rating,
+        comment,
+        ...(photo_url && { photo_url }),
+      },
+    }),
+  };
+}
+
+export function validateManualTokenRequest(data: unknown): ValidationResult {
+  const errors: Record<string, string> = {};
+
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: { _form: 'Invalid data' } };
+  }
+
+  const d = data as Record<string, unknown>;
+
+  const reviewer_name = typeof d.reviewer_name === 'string' ? sanitize(d.reviewer_name) : '';
+  const email = typeof d.email === 'string' ? sanitize(d.email) : '';
+  const tour_name = typeof d.tour_name === 'string' ? sanitize(d.tour_name) : '';
+
+  if (!reviewer_name || reviewer_name.trim() === '') {
+    errors.reviewer_name = 'Reviewer name is required';
+  }
+
+  if (!tour_name || tour_name.trim() === '') {
+    errors.tour_name = 'Tour name is required';
+  }
+
+  const valid = Object.keys(errors).length === 0;
+
+  return {
+    valid,
+    errors,
+    ...(valid && {
+      sanitized: {
+        reviewer_name,
+        email,
+        tour_name,
+      },
+    }),
+  };
+}

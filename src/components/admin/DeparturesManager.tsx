@@ -131,7 +131,7 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
         </h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-[#4cbb17] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-[#3a960e] transition-colors"
+          className="bg-[#4cbb17] text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-[#3a960e] transition-colors"
         >
           {showForm ? "Cancel" : "+ New Departure"}
         </button>
@@ -142,7 +142,7 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
         <select
           value={filterTourId}
           onChange={(e) => setFilterTourId(e.target.value)}
-          className="bg-white border border-[#ebe7e7] rounded-xl py-2.5 px-4 text-sm focus:border-[#4cbb17] outline-none"
+          className="bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-xs text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
         >
           <option value="">All Tours</option>
           {tours.map((t) => (
@@ -160,14 +160,14 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
           className="bg-white rounded-xl shadow-sm p-6 mb-6 grid grid-cols-1 sm:grid-cols-4 gap-4 items-end"
         >
           <div>
-            <label className="block text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">
+            <label className="block text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">
               Tour *
             </label>
             <select
               required
               value={form.tour_id}
               onChange={(e) => setForm({ ...form, tour_id: e.target.value })}
-              className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm focus:border-[#4cbb17] outline-none"
+              className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
             >
               <option value="">Select tour</option>
               {tours.map((t) => (
@@ -178,7 +178,7 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">
+            <label className="block text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">
               Date *
             </label>
             <input
@@ -186,11 +186,11 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
               required
               value={form.date}
               onChange={(e) => setForm({ ...form, date: e.target.value })}
-              className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm focus:border-[#4cbb17] outline-none"
+              className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">
+            <label className="block text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">
               Time *
             </label>
             <input
@@ -198,12 +198,12 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
               required
               value={form.time}
               onChange={(e) => setForm({ ...form, time: e.target.value })}
-              className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm focus:border-[#4cbb17] outline-none"
+              className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
             />
           </div>
           <div className="flex gap-2 items-end">
             <div className="flex-1">
-              <label className="block text-xs font-bold uppercase tracking-widest text-[#78716c] mb-1">
+              <label className="block text-[10px] font-medium uppercase tracking-widest text-[#a8a29e] mb-1">
                 Capacity *
               </label>
               <input
@@ -214,13 +214,13 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
                 onChange={(e) =>
                   setForm({ ...form, capacity: Number(e.target.value) })
                 }
-                className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm focus:border-[#4cbb17] outline-none"
+                className="w-full bg-white border border-[#ebe7e7] rounded-lg py-2 px-3 text-sm text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#4cbb17] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#3a960e] transition-colors disabled:opacity-50"
+              className="bg-[#4cbb17] text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#3a960e] transition-colors disabled:opacity-50"
             >
               Create
             </button>
@@ -232,67 +232,67 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#ebe7e7]">
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Tour</th>
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Date</th>
-              <th className="text-left px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Time</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Capacity</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Spots Left</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Sold Out</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Active</th>
-              <th className="text-center px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Hidden</th>
-              <th className="text-right px-4 py-3 font-bold text-xs uppercase tracking-wider text-[#78716c]">Actions</th>
+            <tr className="border-b border-[#ebe7e7] bg-[#fafaf9]">
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Tour</th>
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Date</th>
+              <th className="text-left px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Time</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Capacity</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Spots Left</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Sold Out</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Active</th>
+              <th className="text-center px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Hidden</th>
+              <th className="text-right px-4 py-2.5 font-medium text-[10px] uppercase tracking-wider text-[#a8a29e]">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((dep) => (
+            {filtered.map((dep, i) => (
               <tr
                 key={dep.id}
-                className="border-b border-[#ebe7e7] last:border-b-0 hover:bg-[#f5f0ee]/50 transition-colors"
+                className={`border-b border-[#ebe7e7] last:border-b-0 hover:bg-[#fafaf9] transition-colors ${i % 2 === 1 ? "bg-[#fafaf9]/50" : ""}`}
               >
                 {editingId === dep.id ? (
                   <>
-                    <td className="px-4 py-3 font-medium text-[#1c1b1b]">
+                    <td className="px-4 py-2.5 font-medium text-[#1c1b1b]">
                       {dep.tours?.title ?? "—"}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <input
                         type="date"
                         value={editForm.date ?? ""}
                         onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm w-32 focus:border-[#4cbb17] outline-none"
+                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm text-[#1c1b1b] w-32 focus:border-[#4cbb17] outline-none"
                       />
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <input
                         type="time"
                         value={editForm.time ?? ""}
                         onChange={(e) => setEditForm({ ...editForm, time: e.target.value })}
-                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm w-24 focus:border-[#4cbb17] outline-none"
+                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm text-[#1c1b1b] w-24 focus:border-[#4cbb17] outline-none"
                       />
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <input
                         type="number"
                         min={1}
                         value={editForm.capacity ?? ""}
                         onChange={(e) => setEditForm({ ...editForm, capacity: Number(e.target.value) })}
-                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm w-16 text-center focus:border-[#4cbb17] outline-none"
+                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm text-[#1c1b1b] w-16 text-center focus:border-[#4cbb17] outline-none"
                       />
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <input
                         type="number"
                         min={0}
                         value={editForm.spots_left ?? ""}
                         onChange={(e) => setEditForm({ ...editForm, spots_left: Number(e.target.value) })}
-                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm w-16 text-center focus:border-[#4cbb17] outline-none"
+                        className="border border-[#ebe7e7] rounded px-2 py-1 text-sm text-[#1c1b1b] w-16 text-center focus:border-[#4cbb17] outline-none"
                       />
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <Badge text={dep.sold_out ? "Yes" : "No"} variant={dep.sold_out ? "error" : "default"} />
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -303,20 +303,20 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
                         <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:bg-[#4cbb17] after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full relative" />
                       </label>
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <Badge text={dep.hidden ? "Yes" : "No"} variant={dep.hidden ? "warning" : "default"} />
                     </td>
-                    <td className="px-4 py-3 text-right space-x-2">
+                    <td className="px-4 py-2.5 text-right space-x-1.5">
                       <button
                         onClick={() => handleUpdate(dep.id)}
                         disabled={loading}
-                        className="text-[#4cbb17] hover:underline font-medium text-sm disabled:opacity-50"
+                        className="text-[#4cbb17] hover:underline font-medium text-xs disabled:opacity-50"
                       >
                         Save
                       </button>
                       <button
                         onClick={() => { setEditingId(null); setEditForm({}); }}
-                        className="text-[#78716c] hover:underline text-sm"
+                        className="text-[#78716c] hover:underline text-xs"
                       >
                         Cancel
                       </button>
@@ -324,14 +324,14 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
                   </>
                 ) : (
                   <>
-                    <td className="px-4 py-3 font-medium text-[#1c1b1b]">
+                    <td className="px-4 py-2.5 font-medium text-[#1c1b1b]">
                       {dep.tours?.title ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-[#1c1b1b]">{dep.date}</td>
-                    <td className="px-4 py-3 text-[#1c1b1b]">{dep.time}</td>
-                    <td className="px-4 py-3 text-center">{dep.capacity}</td>
-                    <td className="px-4 py-3 text-center">{dep.spots_left}</td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-[#1c1b1b]">{dep.date}</td>
+                    <td className="px-4 py-2.5 text-[#1c1b1b]">{dep.time}</td>
+                    <td className="px-4 py-2.5 text-center">{dep.capacity}</td>
+                    <td className="px-4 py-2.5 text-center">{dep.spots_left}</td>
+                    <td className="px-4 py-2.5 text-center">
                       <button
                         onClick={() => handleToggle(dep.id, "sold_out", dep.sold_out)}
                         disabled={loading}
@@ -343,13 +343,13 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
                         />
                       </button>
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <Badge
                         text={dep.active ? "Yes" : "No"}
                         variant={dep.active ? "success" : "error"}
                       />
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-2.5 text-center">
                       <button
                         onClick={() => handleToggle(dep.id, "hidden", dep.hidden)}
                         disabled={loading}
@@ -361,17 +361,17 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
                         />
                       </button>
                     </td>
-                    <td className="px-4 py-3 text-right space-x-2 whitespace-nowrap">
+                    <td className="px-4 py-2.5 text-right space-x-1.5 whitespace-nowrap">
                       <button
                         onClick={() => startEdit(dep)}
-                        className="text-[#4cbb17] hover:underline font-medium text-sm"
+                        className="text-[#4cbb17] hover:underline font-medium text-xs"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDuplicate(dep.id)}
                         disabled={loading}
-                        className="text-blue-600 hover:underline text-sm disabled:opacity-50"
+                        className="text-blue-600 hover:underline text-xs disabled:opacity-50"
                       >
                         Duplicate
                       </button>
@@ -382,8 +382,9 @@ export default function DeparturesManager({ initialDepartures, tours }: Props) {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={9} className="px-6 py-12 text-center text-[#78716c]">
-                  No departures found.
+                <td colSpan={9} className="px-6 py-16 text-center">
+                  <span className="material-symbols-outlined text-[32px] text-[#d6d3d1] mb-2 block">event_available</span>
+                  <p className="text-sm text-[#78716c]">No departures found.</p>
                 </td>
               </tr>
             )}

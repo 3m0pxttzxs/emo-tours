@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "EMO Tours CDMX",
   description:
     "Descubre la Ciudad de México con tours únicos y experiencias personalizadas.",
+  icons: {
+    icon: "https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/homepage/favicon.png",
+  },
 };
 
 export default function RootLayout({

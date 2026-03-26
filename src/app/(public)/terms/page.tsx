@@ -15,7 +15,7 @@ const sections = [
   { title: "Private & Custom Experiences", body: "Private tours are subject to availability and require a minimum of 48 hours advance booking. Custom itineraries are designed after consultation and confirmed via email." },
   { title: "Intellectual Property", body: "All content on this website, including text, images, and design, is the property of EMO Tours CDMX and may not be reproduced without permission." },
   { title: "Limitation of Liability", body: "EMO Tours CDMX acts as a guide service. We are not liable for accidents, injuries, or losses that occur during tours beyond our reasonable control." },
-  { title: "Contact", body: "For questions about these terms, reach us at hello@emo-tours.org" },
+  { title: "Contact", body: "For questions about these terms, reach us at inkedsad@gmail.com" },
 ];
 
 export default function TermsPage() {

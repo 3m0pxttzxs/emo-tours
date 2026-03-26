@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 
 interface ConfirmationSummaryProps {
   orderReference: string;
@@ -120,24 +119,11 @@ export default function ConfirmationSummary({
               <h2 className="font-heading font-bold text-2xl text-[#1c1b1b]">
                 Meeting Point
               </h2>
-              <div className="relative h-48 md:h-56 rounded-xl overflow-hidden bg-[#f5f0ee]">
-                <Image
-                  src={`https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(meetingPoint + " Mexico City")}&zoom=15&size=600x300&scale=2&maptype=roadmap&markers=color:green%7C${encodeURIComponent(meetingPoint + " Mexico City")}`}
-                  alt={`Map showing ${meetingPoint}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  unoptimized
-                />
-                {/* Fallback overlay if map doesn't load */}
-                <div className="absolute inset-0 flex items-center justify-center bg-[#f5f0ee]" style={{ zIndex: -1 }}>
-                  <div className="text-center">
-                    <span className="material-symbols-outlined text-4xl text-[#78716c]">map</span>
-                    <p className="text-sm text-[#78716c] mt-2">{meetingPoint}</p>
-                  </div>
-                </div>
+              <div className="bg-[#f5f0ee] rounded-xl p-6 flex flex-col items-center text-center">
+                <span className="material-symbols-outlined text-[#4CBB17] text-4xl mb-3">location_on</span>
+                <p className="text-[#1c1b1b] font-heading font-bold text-lg">{meetingPoint}</p>
+                <p className="text-[#78716c] text-sm mt-1">Mexico City</p>
               </div>
-              <p className="text-[#1c1b1b] font-medium">{meetingPoint}</p>
               <a
                 href={googleMapsUrl}
                 target="_blank"
