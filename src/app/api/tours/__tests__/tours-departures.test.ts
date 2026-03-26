@@ -17,6 +17,11 @@ vi.mock("@/lib/supabase/server", () => ({
   supabaseAdmin,
 }));
 
+// Mock next/cache revalidatePath (not available in test environment)
+vi.mock("next/cache", () => ({
+  revalidatePath: vi.fn(),
+}));
+
 // Mock departure generation functions
 const mockGenerateDeparturesForTour = vi.fn();
 const mockRegenerateDepartures = vi.fn();

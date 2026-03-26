@@ -20,16 +20,16 @@ function makeDeparture(overrides: Partial<Departure> = {}): Departure {
 }
 
 describe('StatusIndicator – status mapping', () => {
-  it('returns "active" for an active, non-sold-out, non-hidden departure', () => {
-    expect(getStatusIndicator(makeDeparture())).toBe('active');
+  it('returns "live" for an active, non-sold-out, non-hidden departure', () => {
+    expect(getStatusIndicator(makeDeparture())).toBe('live');
   });
 
   it('returns "sold_out" for a sold-out departure', () => {
     expect(getStatusIndicator(makeDeparture({ sold_out: true }))).toBe('sold_out');
   });
 
-  it('returns "hidden" for a hidden departure', () => {
-    expect(getStatusIndicator(makeDeparture({ hidden: true }))).toBe('hidden');
+  it('returns "inactive" for a hidden departure', () => {
+    expect(getStatusIndicator(makeDeparture({ hidden: true }))).toBe('inactive');
   });
 
   it('returns "none" when departure is null', () => {
@@ -37,14 +37,14 @@ describe('StatusIndicator – status mapping', () => {
   });
 
   it('hidden takes priority over sold_out', () => {
-    expect(getStatusIndicator(makeDeparture({ hidden: true, sold_out: true }))).toBe('hidden');
+    expect(getStatusIndicator(makeDeparture({ hidden: true, sold_out: true }))).toBe('inactive');
   });
 
   it('sold_out takes priority over active', () => {
     expect(getStatusIndicator(makeDeparture({ active: true, sold_out: true }))).toBe('sold_out');
   });
 
-  it('returns "none" when departure is not active, not sold_out, not hidden', () => {
-    expect(getStatusIndicator(makeDeparture({ active: false }))).toBe('none');
+  it('returns "inactive" when departure is not active', () => {
+    expect(getStatusIndicator(makeDeparture({ active: false }))).toBe('inactive');
   });
 });

@@ -8,16 +8,22 @@ interface DepartureTooltipProps {
 }
 
 const statusLabels: Record<string, string> = {
-  active: 'Active',
+  live: 'Live',
   sold_out: 'Sold Out',
-  hidden: 'Hidden',
-  none: 'Inactive',
+  inactive: 'Inactive',
+  none: '—',
+};
+
+const statusStyles: Record<string, string> = {
+  live: 'bg-green-100 text-green-800',
+  sold_out: 'bg-red-100 text-red-800',
+  inactive: 'bg-gray-100 text-gray-600',
+  none: '',
 };
 
 export default function DepartureTooltip({ departure }: DepartureTooltipProps) {
   const status = getStatusIndicator(departure);
   const label = statusLabels[status];
-  const isSoldOut = status === 'sold_out';
 
   return (
     <div
@@ -40,16 +46,11 @@ export default function DepartureTooltip({ departure }: DepartureTooltipProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-gray-500">Status</span>
-          {isSoldOut ? (
-            <span className="rounded bg-red-100 px-1.5 py-0.5 text-xs font-semibold text-red-600">
-              {label}
-            </span>
-          ) : (
-            <span className="font-medium text-gray-900">{label}</span>
-          )}
+          <span className={`rounded px-1.5 py-0.5 text-xs font-bold ${statusStyles[status]}`}>
+            {label}
+          </span>
         </div>
       </div>
-      {/* Tooltip arrow */}
       <div className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-white" />
     </div>
   );

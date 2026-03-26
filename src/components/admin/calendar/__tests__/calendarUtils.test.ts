@@ -145,11 +145,10 @@ describe('calendarUtils – Property 5: Status indicator mapping', () => {
       fc.property(arbDeparture, (departure) => {
         const result = getStatusIndicator(departure);
 
-        // Priority: hidden > sold_out > active > none
-        if (departure.hidden) return result === 'hidden';
+        // Priority: hidden/!active → inactive, sold_out → sold_out, active → live
+        if (departure.hidden || !departure.active) return result === 'inactive';
         if (departure.sold_out) return result === 'sold_out';
-        if (departure.active) return result === 'active';
-        return result === 'none';
+        return result === 'live';
       }),
       { numRuns: 100 }
     );

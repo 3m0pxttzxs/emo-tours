@@ -62,16 +62,15 @@ export function buildDepartureMap(departures: Departure[]): Map<string, Departur
 }
 
 /**
- * Pure function mapping a departure (or null) to a status indicator string.
+ * Pure function mapping a departure (or null) to a status string.
  */
 export function getStatusIndicator(
   departure: Departure | null
-): 'active' | 'sold_out' | 'hidden' | 'none' {
+): 'live' | 'sold_out' | 'inactive' | 'none' {
   if (!departure) return 'none';
-  if (departure.hidden) return 'hidden';
+  if (departure.hidden || !departure.active) return 'inactive';
   if (departure.sold_out) return 'sold_out';
-  if (departure.active) return 'active';
-  return 'none';
+  return 'live';
 }
 
 /**
