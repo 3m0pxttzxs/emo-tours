@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { tour_id, departure_id, guest_count, customer_full_name, customer_email, customer_phone } =
-      validation.sanitized as Record<string, unknown>;
+      validation.sanitized as { tour_id: string; departure_id: string; guest_count: number; customer_full_name: string; customer_email: string; customer_phone: string };
 
     // 2. Fetch tour
     const { data: tour, error: tourError } = await supabaseAdmin
