@@ -141,9 +141,6 @@ export default async function TourDetailPage({
             {tour.highlights.length > 0 && (
               <HighlightsSection highlights={tour.highlights} />
             )}
-            {tour.included_items.length > 0 && (
-              <InclusionsSection items={tour.included_items} />
-            )}
             {tour.faq_items.length > 0 && (
               <div>
                 <h2 className="font-heading text-3xl font-bold text-[#1c1b1b] mb-6">

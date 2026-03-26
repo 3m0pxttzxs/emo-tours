@@ -15,7 +15,7 @@ interface BookingModuleProps {
 export default function BookingModule({ tour, departures }: BookingModuleProps) {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [guestCount, setGuestCount] = useState(2);
+  const [guestCount, setGuestCount] = useState(1);
 
   const requestOnly = isRequestOnly(tour.type, tour.weekday);
   const dayName = weekdayName(tour.weekday);
@@ -85,7 +85,11 @@ export default function BookingModule({ tour, departures }: BookingModuleProps) 
             selectedDate={selectedDate}
             onSelectDate={setSelectedDate}
           />
-          <GuestCounter value={guestCount} onChange={setGuestCount} />
+          <GuestCounter
+            value={guestCount}
+            onChange={setGuestCount}
+            max={selectedDeparture ? selectedDeparture.spots_left : 8}
+          />
         </div>
 
         {exceedsCapacity && selectedDeparture && (

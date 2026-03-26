@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const discoverLinks = [
-  { href: "/tours", label: "Private Tours" },
-  { href: "/tours", label: "Architecture Walks" },
-  { href: "/tours", label: "Nightlife" },
+  { href: "/tours", label: "Weekly Tours" },
+  { href: "/custom-tours", label: "Private Tours" },
+  { href: "/profile", label: "About Emo" },
 ];
 
 const legalLinks = [

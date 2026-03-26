@@ -2,9 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { validateCustomRequest } from '@/lib/validators';
 import { sendAdminNotificationEmail } from '@/lib/emails';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit: 5 requests per minute
+    const { success: allowed } = rateLimit(request, 5, 60_000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
 
     // 1. Validate request body
@@ -13,7 +23,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors: validation.errors }, { status: 400 });
     }
 
-    const { full_name, email, phone, preferred_date, group_size, interests, notes } = body;
+    const { full_name, email, phone, preferred_date, group_size, interests, notes } =
+      validation.sanitized as Record<string, unknown>;
 
     // 2. Create custom_request in Supabase with status='new'
     const { data: customRequest, error: insertError } = await supabaseAdmin

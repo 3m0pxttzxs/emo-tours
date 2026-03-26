@@ -14,9 +14,16 @@ async function getWeeklyTours(): Promise<Tour[]> {
       .select("*")
       .eq("published", true)
       .eq("active", true)
-      .not("weekday", "is", null);
+      .not("weekday", "is", null)
+      .order("weekday", { ascending: true });
     if (error || !data || data.length === 0) return [];
-    return data as Tour[];
+    // Sort so Monday (1) comes first, then Tue-Sun
+    const sorted = [...(data as Tour[])].sort((a, b) => {
+      const dayA = a.weekday === 0 ? 7 : a.weekday!;
+      const dayB = b.weekday === 0 ? 7 : b.weekday!;
+      return dayA - dayB;
+    });
+    return sorted;
   } catch {
     return [];
   }
@@ -171,10 +178,10 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
             </Link>
           )}
 
-          {/* Card 5 — (col-span-6) */}
+          {/* Card 5 — (col-span-4) */}
           {tours[4] && (
-            <Link href={`/tours/${tours[4].slug}`} className="group md:col-span-6 relative rounded-3xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[360px]">
-              <Image src={tours[4].cover_image} alt={tours[4].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Link href={`/tours/${tours[4].slug}`} className="group md:col-span-4 relative rounded-3xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[360px]">
+              <Image src={tours[4].cover_image} alt={tours[4].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[4])}</span>
@@ -189,14 +196,30 @@ function WeeklyExperiences({ tours }: { tours: Tour[] }) {
 
           {/* Card 6 — (col-span-6) */}
           {tours[5] && (
-            <Link href={`/tours/${tours[5].slug}`} className="group md:col-span-6 relative rounded-3xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[360px]">
-              <Image src={tours[5].cover_image} alt={tours[5].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Link href={`/tours/${tours[5].slug}`} className="group md:col-span-4 relative rounded-3xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[360px]">
+              <Image src={tours[5].cover_image} alt={tours[5].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[5])}</span>
                 <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[5].title}</h3>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-white/60 text-sm">${tours[5].base_price} / person · {fmtTime(tours[5].departure_time)}</span>
+                  <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Card 7 — Polanco (col-span-4) */}
+          {tours[6] && (
+            <Link href={`/tours/${tours[6].slug}`} className="group md:col-span-4 relative rounded-3xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[360px]">
+              <Image src={tours[6].cover_image} alt={tours[6].title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <span className="inline-block bg-white/20 text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">{dayLabel(tours[6])}</span>
+                <h3 className="font-heading font-bold text-xl text-white leading-tight">{tours[6].title}</h3>
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-white/60 text-sm">${tours[6].base_price} / person · {fmtTime(tours[6].departure_time)}</span>
                   <span className="material-symbols-outlined text-white text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
               </div>
@@ -326,7 +349,7 @@ function Testimonials() {
 function FinalCTA() {
   return (
     <section className="relative py-28 md:py-40 overflow-hidden">
-      <Image src="https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=1920&q=80" alt="Mexico City" fill className="object-cover" sizes="100vw" />
+      <Image src="https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/homepage/footer-home.jpg" alt="Mexico City" fill className="object-cover" sizes="100vw" />
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 text-center">
         <h2 className="font-heading font-black text-4xl sm:text-5xl md:text-7xl text-white uppercase tracking-tighter leading-[0.9] max-w-3xl mx-auto">

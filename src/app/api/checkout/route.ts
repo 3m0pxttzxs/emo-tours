@@ -3,10 +3,20 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
 import { validateCheckoutRequest } from '@/lib/validators';
 import { validateAvailability, calculateTotal } from '@/lib/capacity';
+import { rateLimit } from '@/lib/rate-limit';
 import type { Tour, Departure } from '@/types';
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit: 5 requests per minute
+    const { success: allowed } = rateLimit(request, 5, 60_000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
 
     // 1. Validate request body
@@ -15,7 +25,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors: validation.errors }, { status: 400 });
     }
 
-    const { tour_id, departure_id, guest_count, customer_full_name, customer_email, customer_phone } = body;
+    const { tour_id, departure_id, guest_count, customer_full_name, customer_email, customer_phone } =
+      validation.sanitized as Record<string, unknown>;
 
     // 2. Fetch tour
     const { data: tour, error: tourError } = await supabaseAdmin

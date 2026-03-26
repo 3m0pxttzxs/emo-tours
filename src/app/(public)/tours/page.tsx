@@ -42,12 +42,10 @@ export default async function ToursListingPage() {
         <div className="w-24 h-1 bg-[#4CBB17] mt-6" />
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-          {tours.map((tour, index) => (
-            <div key={tour.id} className={index % 2 === 1 ? "md:pt-24" : ""}>
-              <TourCard tour={tour} />
-            </div>
+      <section className="mx-auto max-w-[1440px] px-6 pb-16 md:pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {tours.map((tour) => (
+            <TourCard key={tour.id} tour={tour} compact />
           ))}
         </div>
       </section>

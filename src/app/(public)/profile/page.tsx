@@ -5,7 +5,8 @@ import Link from "next/link";
 export const revalidate = false;
 
 export const metadata: Metadata = {
-  title: "Curator Profile | EMO Tours CDMX",
+  title: "Emo Puttzis | EMO Tours CDMX",
+  description: "Guide, food designer, storyteller. The story behind EMO Tours CDMX.",
 };
 
 export default function ProfilePage() {
@@ -13,54 +14,52 @@ export default function ProfilePage() {
     <div className="bg-[#fcf8f8]">
       <HeroSection />
       <PhilosophySection />
-      <TheStory />
+      <HowItStarted />
+      <TheApproach />
+      <TheConnection />
       <ValuesSection />
       <FinalCTA />
     </div>
   );
 }
 
-/* ────────────────────────────────────────────────────
-   HERO
-   ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   1. FOUNDER HERO
+   ═══════════════════════════════════════════════════ */
 function HeroSection() {
   return (
-    <section className="mx-auto max-w-[1440px] px-6 pt-16 md:pt-24 pb-12 relative">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
-        <div className="md:col-span-7">
-          <p className="text-[#4cbb17] font-heading font-bold text-sm uppercase tracking-widest mb-4">
-            Meet the Curator
+    <section className="mx-auto max-w-[1440px] px-6 pt-10 md:pt-14 pb-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+        <div className="md:col-span-7 flex flex-col justify-end">
+          <p className="text-[#4cbb17] font-heading font-bold text-xs uppercase tracking-widest mb-3">
+            Guide · Food Designer · Storyteller
           </p>
-          <h1 className="font-heading text-7xl md:text-[9rem] font-bold tracking-tighter uppercase leading-[0.85] text-[#1c1b1b]">
-            The
-            <br />
-            Architect
-            <br />
-            <span className="text-[#4cbb17]">of Moments</span>
+          <h1 className="font-heading text-4xl md:text-[5.5rem] font-bold tracking-tighter uppercase leading-[0.88] text-[#1c1b1b] mb-5">
+            The Storyteller <span className="text-[#4cbb17]">of the City</span>
           </h1>
+          <p className="text-[#78716c] text-base leading-relaxed max-w-md">
+            &ldquo;I don&apos;t show people where to look — I show them how to see.
+            My connection to Mexico City isn&apos;t built on postcards, but on the
+            rhythm of the streets I&apos;ve walked for over fifteen years.&rdquo;
+          </p>
         </div>
         <div className="md:col-span-5 relative">
-          <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
+          <div className="relative aspect-[3/4] max-h-[420px] rounded-2xl overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
-              alt="Mateo Reyes portrait"
+              src="https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/Profile/About-photo.jpg"
+              alt="Emo Puttzis"
               fill
               priority
               className="object-cover grayscale"
               sizes="(max-width: 768px) 100vw, 42vw"
             />
           </div>
-          {/* Glass card overlay */}
-          <div className="absolute -bottom-6 left-4 right-4 md:-left-12 md:right-auto md:w-[320px] bg-white/80 backdrop-blur-xl rounded-xl p-6 shadow-lg border border-white/50">
-            <p className="font-heading font-black text-xl text-[#1c1b1b]">Mateo Reyes</p>
-            <p className="text-[#78716c] text-sm mt-1">Founder &amp; Curator</p>
-            <div className="flex gap-3 mt-3">
-              <span className="inline-block bg-[#f6f3f2] text-[#1c1b1b] text-xs font-heading font-bold px-3 py-1 rounded-full">
-                12+ Years
-              </span>
-              <span className="inline-block bg-[#f6f3f2] text-[#1c1b1b] text-xs font-heading font-bold px-3 py-1 rounded-full">
-                CDMX Native
-              </span>
+          <div className="absolute -bottom-4 left-4 md:-left-8 md:w-[260px] bg-white/85 backdrop-blur-xl rounded-xl p-4 shadow-lg border border-white/50">
+            <p className="font-heading font-black text-lg text-[#1c1b1b]">Emo Puttzis</p>
+            <p className="text-[#78716c] text-sm">Guide</p>
+            <div className="flex gap-2 mt-2">
+              <span className="bg-[#f6f3f2] text-[#1c1b1b] text-[10px] font-heading font-bold px-2 py-0.5 rounded-full">Since 2010</span>
+              <span className="bg-[#f6f3f2] text-[#1c1b1b] text-[10px] font-heading font-bold px-2 py-0.5 rounded-full">CDMX Native</span>
             </div>
           </div>
         </div>
@@ -69,209 +68,245 @@ function HeroSection() {
   );
 }
 
-/* ────────────────────────────────────────────────────
-   PHILOSOPHY
-   ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   2. PHILOSOPHY
+   ═══════════════════════════════════════════════════ */
 function PhilosophySection() {
   return (
-    <section className="bg-[#f6f3f2] py-20 md:py-28 mt-12">
+    <section className="bg-[#f6f3f2] py-14 md:py-20 mt-8">
       <div className="mx-auto max-w-[1440px] px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-[#4cbb17] font-heading font-bold text-sm uppercase tracking-widest mb-6">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-[#4cbb17] font-heading font-bold text-xs uppercase tracking-widest mb-4 text-center">
             Philosophy
           </p>
-          <h2 className="font-heading font-black text-3xl md:text-5xl text-[#1c1b1b] tracking-tighter leading-tight mb-8">
+          <h2 className="font-heading font-black text-2xl md:text-4xl text-[#1c1b1b] tracking-tighter leading-tight mb-6 text-center">
             This is not a typical tour.
           </h2>
-          <p className="text-[#78716c] text-lg md:text-xl leading-relaxed mb-6">
-            &ldquo;I started EMO Tours because I was tired of seeing visitors leave Mexico City
-            having only scratched the surface. The real city lives in the conversations at a
-            corner taquería, in the murals hidden behind scaffolding, in the rhythm of a
-            neighborhood that hasn&apos;t been &lsquo;discovered&rsquo; yet.&rdquo;
-          </p>
-          <p className="text-[#78716c] text-lg md:text-xl leading-relaxed">
-            &ldquo;Every route we design is a love letter to this city. We don&apos;t follow
-            guidebooks — we follow instinct, relationships, and 12 years of walking these
-            streets with open eyes.&rdquo;
-          </p>
+          <div className="space-y-4 text-[#78716c] text-base leading-relaxed">
+            <p>
+              I started Emo Tours because I was tired of experiences that felt overloaded
+              with information, built for giant groups, and disconnected from the people
+              actually taking them.
+            </p>
+            <p>
+              Not everyone learns the same way. Not everyone travels the same way. And not
+              everyone wants to move through a city as if they were checking boxes off a list.
+            </p>
+            <p>
+              I want people to leave with more than facts — I want them to take a small piece
+              of what it means to be Mexican, to live in a world capital, and to see this city
+              through a local point of view.
+            </p>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ────────────────────────────────────────────────────
-   THE STORY — Asymmetric Bento Grid
-   ──────────────────────────────────────────────────── */
-function TheStory() {
-  const approaches = [
-    { label: "Direct Sourcing", icon: "check" },
-    { label: "Local Expertise Only", icon: "check" },
-    { label: "Private Logistics", icon: "check" },
-  ];
-
+/* ═══════════════════════════════════════════════════
+   3. HOW IT STARTED
+   ═══════════════════════════════════════════════════ */
+function HowItStarted() {
   return (
-    <section className="mx-auto max-w-[1440px] px-6 py-16 md:py-24">
-      <p className="text-[#4cbb17] font-heading font-bold text-sm uppercase tracking-widest mb-3">
-        The Story
-      </p>
-      <h2 className="font-heading font-black text-4xl md:text-6xl text-[#1c1b1b] tracking-tighter leading-[0.95] mb-12">
-        How It Started
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        {/* Origins card */}
-        <div className="md:col-span-5 bg-[#1c1b1b] rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[380px]">
-          <div>
-            <span className="inline-block border border-white/20 text-white/60 text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
-              Origins
-            </span>
-            <h3 className="font-heading font-bold text-2xl md:text-3xl text-white leading-tight tracking-tight">
-              Born from a single walking tour in 2012
-            </h3>
-          </div>
-          <p className="text-white/50 text-base leading-relaxed mt-6">
-            What began as informal walks with friends visiting from abroad grew into a
-            mission: to show the world the Mexico City that locals love. No scripts, no
-            tourist traps — just authentic connection.
-          </p>
-        </div>
-
-        {/* Street photo */}
-        <div className="md:col-span-4 relative rounded-2xl overflow-hidden min-h-[300px] md:min-h-[380px] group">
-          <Image
-            src="https://images.unsplash.com/photo-1568736333610-eae6e0ab0f68?w=600&q=80"
-            alt="Mexico City street"
-            fill
-            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-        </div>
-
-        {/* Artisan photo */}
-        <div className="md:col-span-3 relative rounded-2xl overflow-hidden min-h-[300px] md:min-h-[380px] group">
-          <Image
-            src="https://images.unsplash.com/photo-1570737543098-0c32dc185b5c?w=600&q=80"
-            alt="Local artisan at work"
-            fill
-            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 25vw"
-          />
-        </div>
-
-        {/* The Approach card */}
-        <div className="md:col-span-7 bg-white rounded-2xl p-8 md:p-10 shadow-sm">
-          <span className="inline-block bg-[#4cbb17]/10 text-[#256d00] text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
-            The Approach
+    <section className="mx-auto max-w-[1440px] px-6 py-14 md:py-20">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {/* Story */}
+        <div className="md:col-span-7">
+          <span className="inline-block bg-[#1c1b1b] text-white text-[10px] font-heading font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+            How It Started · 2010
           </span>
-          <h3 className="font-heading font-bold text-2xl text-[#1c1b1b] mb-6">
-            Every detail is intentional
-          </h3>
-          <ul className="space-y-4">
-            {approaches.map((a) => (
-              <li key={a.label} className="flex items-center gap-3">
-                <span
-                  className="material-symbols-outlined text-[#4cbb17] text-xl"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  {a.icon}
-                </span>
-                <span className="font-heading font-medium text-[#1c1b1b]">{a.label}</span>
-              </li>
-            ))}
-          </ul>
+          <h2 className="font-heading font-bold text-2xl md:text-3xl text-[#1c1b1b] tracking-tight leading-tight mb-5">
+            A break from school turned into a calling.
+          </h2>
+          <div className="space-y-4 text-[#78716c] text-sm leading-relaxed">
+            <p>
+              I started giving tours in 2010, after a middle school history teacher
+              encouraged me to follow my instinct for storytelling.
+            </p>
+            <p>
+              What began as a break from school turned into something much bigger.
+              I guided formally for two years, then kept doing it through friends,
+              referrals, and word of mouth.
+            </p>
+            <p>
+              Over time, that instinct took me to Paris, Boston, Munich, Mexico City,
+              Queretaro, Puebla, and Tulum.
+            </p>
+            <p className="text-[#1c1b1b] font-medium">
+              Today, Emo Tours brings together the things I care about most: history,
+              anthropology, food, and a deep love for the city that raised me.
+            </p>
+          </div>
         </div>
 
-        {/* Wide image */}
-        <div className="md:col-span-5 relative rounded-2xl overflow-hidden min-h-[250px] group">
+        {/* Mini stats */}
+        <div className="md:col-span-5 grid grid-cols-2 gap-3 content-start">
+          {[
+            { label: "Started guiding", value: "2010" },
+            { label: "Tours in", value: "7 cities" },
+            { label: "Background", value: "Food design" },
+            { label: "Built around", value: "Story & exchange" },
+          ].map((s) => (
+            <div key={s.label} className="bg-white rounded-xl p-4 shadow-sm">
+              <p className="text-[#4cbb17] font-heading font-bold text-xl mb-1">{s.value}</p>
+              <p className="text-[#78716c] text-xs uppercase tracking-wider">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   4. THE APPROACH
+   ═══════════════════════════════════════════════════ */
+function TheApproach() {
+  return (
+    <section className="bg-[#1c1b1b] py-14 md:py-20">
+      <div className="mx-auto max-w-[1440px] px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <p className="text-[#4cbb17] font-heading font-bold text-xs uppercase tracking-widest mb-3">
+              The Approach
+            </p>
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-white tracking-tight leading-tight mb-4">
+              Every route is built around people.
+            </h2>
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
+              As a food designer, storyteller, and independent guide, I build experiences
+              around feeling, curiosity, and cultural exchange.
+            </p>
+            <ul className="space-y-3">
+              {["Story-led by design", "Personalized to the group", "Rooted in human connection", "Built for conversation"].map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#4cbb17] text-base" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
+                  <span className="font-heading font-medium text-sm text-white">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex items-center justify-center">
+            <p className="text-white/20 font-heading font-black text-5xl md:text-7xl tracking-tighter uppercase leading-[0.9] text-center select-none">
+              History<br />Anthropology<br />Food<br /><span className="text-[#4cbb17]/40">Feeling</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   5. THE CONNECTION
+   ═══════════════════════════════════════════════════ */
+function TheConnection() {
+  return (
+    <section className="mx-auto max-w-[1440px] px-6 py-14 md:py-20">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div className="md:col-span-5 relative aspect-[4/3] rounded-2xl overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1547995886-6dc09384c6e6?w=800&q=80"
-            alt="Mexico City panoramic view"
+            src="https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/Profile/connection.jpg"
+            alt="Mexico City"
             fill
-            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+            className="object-cover"
             sizes="(max-width: 768px) 100vw, 42vw"
           />
         </div>
+        <div className="md:col-span-7">
+          <p className="text-[#4cbb17] font-heading font-bold text-xs uppercase tracking-widest mb-3">
+            The Connection
+          </p>
+          <h2 className="font-heading font-bold text-2xl md:text-3xl text-[#1c1b1b] tracking-tight leading-tight mb-5">
+            Why this city feels personal
+          </h2>
+          <div className="space-y-4 text-[#78716c] text-sm leading-relaxed">
+            <p>
+              Since I was a kid, I&apos;ve been obsessed with castles. The moment I had the
+              chance, I moved closer to the part of the city I love most. To this day, some
+              of my favorite rituals are long walks through Reforma, visits to Chapultepec
+              Castle, and time in the forest just to appreciate how beautiful this city really is.
+            </p>
+            <p>
+              I was born and raised in CDMX, with a Polish mother and a chilango father.
+              That mix shaped the way I see culture, belonging, and exchange — and it shapes
+              the way I guide.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-/* ────────────────────────────────────────────────────
-   VALUES
-   ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   6. VALUES
+   ═══════════════════════════════════════════════════ */
 function ValuesSection() {
   const values = [
     {
       num: "01",
-      title: "Community First",
+      title: "Cultural Exchange",
       description:
-        "Every tour directly supports local businesses, artisans, and families. We partner exclusively with neighborhood establishments that share our values.",
+        "Travel should create understanding, not just consumption. Every tour is a chance to share perspectives, stories, and ways of seeing the city that go beyond the surface.",
     },
     {
       num: "02",
-      title: "Zero Plastic",
+      title: "Community First",
       description:
-        "All our tours are plastic-free. We provide reusable water bottles and partner with vendors who share our commitment to sustainability.",
+        "The city is made by the people who live it. Whenever possible, Emo Tours honors local neighborhoods, local rhythms, and the communities that give CDMX its soul.",
     },
     {
       num: "03",
-      title: "Fair Pay",
+      title: "Slower, Intentional Travel",
       description:
-        "Our guides earn above-market rates with full benefits. Great experiences start with people who are valued and respected.",
+        "Not every experience needs to be rushed or overpacked. Some of the most meaningful moments happen when we slow down, pay attention, and let the city reveal itself.",
     },
   ];
 
   return (
-    <section className="mx-auto max-w-[1440px] px-6 py-16 md:py-24">
-      <p className="text-[#4cbb17] font-heading font-bold text-sm uppercase tracking-widest mb-3">
-        What We Stand For
-      </p>
-      <h2 className="font-heading font-black text-4xl md:text-6xl text-[#1c1b1b] tracking-tighter leading-[0.95] mb-16">
-        Our Values
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {values.map((v) => (
-          <div key={v.num} className="group relative pt-4">
-            {/* Hover-animated top border */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#ebe7e7]">
-              <div className="h-full w-0 bg-[#4cbb17] group-hover:w-full transition-all duration-500" />
+    <section className="bg-[#f6f3f2] py-14 md:py-20">
+      <div className="mx-auto max-w-[1440px] px-6">
+        <p className="text-[#4cbb17] font-heading font-bold text-xs uppercase tracking-widest mb-3">
+          What We Stand For
+        </p>
+        <h2 className="font-heading font-black text-2xl md:text-4xl text-[#1c1b1b] tracking-tighter leading-tight mb-10">
+          Our Values
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {values.map((v) => (
+            <div key={v.num} className="bg-white rounded-xl p-6 group">
+              <div className="h-[2px] bg-[#ebe7e7] mb-4 relative overflow-hidden">
+                <div className="absolute inset-0 w-0 bg-[#4cbb17] group-hover:w-full transition-all duration-500" />
+              </div>
+              <span className="block font-heading font-black text-3xl text-[#1c1b1b]/10 mb-2 select-none">{v.num}</span>
+              <h3 className="font-heading font-bold text-base text-[#1c1b1b] mb-2">{v.title}</h3>
+              <p className="text-[#78716c] leading-relaxed text-sm">{v.description}</p>
             </div>
-            <span className="block font-heading font-black text-6xl text-[#1c1b1b]/10 mb-2 select-none">
-              {v.num}
-            </span>
-            <h3 className="font-heading font-bold text-xl text-[#1c1b1b] mb-3">
-              {v.title}
-            </h3>
-            <p className="text-[#78716c] leading-relaxed text-sm">
-              {v.description}
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-/* ────────────────────────────────────────────────────
-   FINAL CTA
-   ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   7. FINAL CTA
+   ═══════════════════════════════════════════════════ */
 function FinalCTA() {
   return (
-    <section className="bg-[#1c1b1b] py-20 md:py-28">
+    <section className="bg-[#1c1b1b] py-16 md:py-20">
       <div className="mx-auto max-w-[1440px] px-6 text-center">
-        <h2 className="font-heading font-black text-4xl sm:text-5xl md:text-7xl text-white uppercase tracking-tighter leading-[0.9] max-w-3xl mx-auto">
-          Ready to see the real CDMX?
+        <h2 className="font-heading font-black text-3xl md:text-5xl text-white uppercase tracking-tighter leading-[0.9] max-w-2xl mx-auto">
+          Ready to feel the real CDMX?
         </h2>
-        <p className="mt-6 text-white/50 text-lg max-w-md mx-auto">
-          Let Mateo and the team show you the city they call home.
+        <p className="mt-4 text-white/50 text-sm max-w-md mx-auto">
+          Explore routes shaped by history, food, feeling, and a local perspective
+          you won&apos;t get from a script.
         </p>
-        <div className="mt-8">
-          <Link
-            href="/tours"
-            className="inline-flex items-center bg-[#4cbb17] text-[#1c1b1b] rounded-full px-10 py-4 font-heading font-bold text-lg hover:bg-[#3a960e] transition-colors"
-          >
+        <div className="mt-6">
+          <Link href="/tours" className="inline-flex items-center bg-[#4cbb17] text-[#1c1b1b] rounded-full px-8 py-3 font-heading font-bold text-sm hover:bg-[#3a960e] transition-colors">
             Explore Tours
           </Link>
         </div>

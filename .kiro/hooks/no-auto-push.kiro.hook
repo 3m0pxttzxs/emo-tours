@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "No Auto Push",
+  "description": "Prevents automatic git push to production. Before any git push command, remind the agent to ask the user for explicit approval first.",
+  "version": "1",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "shell"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "STOP. If you are about to run 'git push', DO NOT proceed. You must ask the user for explicit permission before pushing to production. Say something like 'Los cambios están listos. ¿Quieres que haga push?' and wait for their approval. Only push if they explicitly say yes."
+  }
+}
