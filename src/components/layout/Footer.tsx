@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const discoverLinks = [
   { href: "/tours", label: "Weekly Tours" },
@@ -19,9 +20,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand column — spans 2 cols on desktop */}
           <div className="md:col-span-2">
-            <h2 className="font-heading font-black tracking-tighter uppercase text-white text-3xl mb-4">
-              EMO TOURS CDMX
-            </h2>
+            <Image src="/logo.png" alt="EMO Tours CDMX" width={64} height={64} className="h-14 w-auto mb-4" />
             <p className="text-gray-400 text-sm leading-relaxed max-w-md mb-6">
               Curated urban experiences in Mexico City. We connect you with the
               soul of the city through architecture, food, nightlife, and
@@ -30,7 +29,7 @@ export default function Footer() {
             {/* Social icons */}
             <div className="flex items-center gap-4">
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/3mo_tours"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -41,18 +40,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-                className="text-gray-400 hover:text-[#4CBB17] transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              <a
-                href="https://tiktok.com"
+                href="https://www.tiktok.com/@emo_pxttzxs"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
@@ -107,7 +95,7 @@ export default function Footer() {
         {/* Bottom copyright */}
         <div className="mt-16 pt-8 border-t border-[#ebe7e7]/10">
           <p className="text-gray-500 text-xs text-center">
-            © 2024 EMO TOURS MEXICO CITY. THE URBAN CURATOR.
+            © 2026 EMO TOURS MEXICO CITY.
           </p>
         </div>
       </div>

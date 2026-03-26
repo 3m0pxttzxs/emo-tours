@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { regenerateDepartures } from '@/lib/departures/generate';
 
 export async function GET(
   _request: NextRequest,
@@ -32,6 +33,17 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
+    // Fetch the current tour before updating to compare weekday/departure_time
+    const { data: previousTour, error: fetchError } = await supabaseAdmin
+      .from('tours')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !previousTour) {
+      return NextResponse.json({ error: 'Tour no encontrado' }, { status: 404 });
+    }
+
     // Remove fields that shouldn't be updated directly
     const { id: _id, created_at: _ca, ...updateData } = body;
 
@@ -45,6 +57,32 @@ export async function PUT(
     if (error || !tour) {
       console.error('Error updating tour:', error);
       return NextResponse.json({ error: 'Error al actualizar el tour' }, { status: 500 });
+    }
+
+    // Check if weekday or departure_time changed
+    const weekdayChanged = previousTour.weekday !== tour.weekday;
+    const departureTimeChanged = previousTour.departure_time !== tour.departure_time;
+
+    if (weekdayChanged || departureTimeChanged) {
+      try {
+        const { deleted, created } = await regenerateDepartures(
+          id,
+          tour.weekday ?? null,
+          tour.departure_time ?? null,
+          tour.capacity_default
+        );
+        return NextResponse.json({
+          ...tour,
+          departures_deleted: deleted,
+          departures_created: created,
+        });
+      } catch (regenError) {
+        console.error('Error regenerating departures:', regenError);
+        return NextResponse.json({
+          ...tour,
+          warning: 'El tour se actualizó pero hubo un error al regenerar las departures.',
+        });
+      }
     }
 
     return NextResponse.json(tour);

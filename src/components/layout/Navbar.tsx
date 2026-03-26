@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const navLinks = [
@@ -18,9 +19,9 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-heading font-black tracking-tighter uppercase text-[#1c1b1b] text-xl"
+          className="flex items-center"
         >
-          EMO TOURS CDMX
+          <Image src="/logo.png" alt="EMO Tours CDMX" width={48} height={48} className="h-10 w-auto" />
         </Link>
 
         {/* Center nav links — hidden on mobile */}

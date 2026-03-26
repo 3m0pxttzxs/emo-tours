@@ -15,7 +15,6 @@ const items = (props: MetadataChipsProps) => {
     { label: "Meeting Point", value: props.meetingPoint },
     { label: "Language", value: props.language },
     { label: "Tour Type", value: props.tourType },
-    { label: "Availability", value: props.availability },
   ];
   if (props.schedule) {
     chips.push({ label: "Schedule", value: props.schedule });

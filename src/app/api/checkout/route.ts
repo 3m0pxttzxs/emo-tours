@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
 import { validateCheckoutRequest } from '@/lib/validators';
@@ -62,6 +63,8 @@ export async function POST(request: NextRequest) {
     const total = subtotal;
 
     // 6. Create booking in Supabase
+    const cancelToken = crypto.randomBytes(32).toString('hex');
+
     const { data: booking, error: bookingError } = await supabaseAdmin
       .from('bookings')
       .insert({
@@ -75,6 +78,7 @@ export async function POST(request: NextRequest) {
         total,
         payment_status: 'pending',
         booking_status: 'pending',
+        cancel_token: cancelToken,
       })
       .select()
       .single();

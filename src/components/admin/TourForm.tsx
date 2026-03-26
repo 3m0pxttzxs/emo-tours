@@ -324,44 +324,56 @@ export default function TourForm({ tour, mode }: TourFormProps) {
         </div>
       </section>
 
-      {/* Toggles */}
+      {/* Visibility */}
       <section className="bg-white rounded-xl p-6">
         <h2 className="text-lg font-heading font-bold text-[#1c1b1b] mb-4">
           Visibility
         </h2>
-        <div className="flex flex-wrap gap-6">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={form.active}
-              onChange={(e) => updateField("active", e.target.checked)}
-              className="w-4 h-4 rounded border-gray-300 text-[#4CBB17] focus:ring-[#4CBB17]"
-            />
-            <span className="text-sm font-medium text-[#1c1b1b]">Active</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={form.published}
-              onChange={(e) => updateField("published", e.target.checked)}
-              className="w-4 h-4 rounded border-gray-300 text-[#4CBB17] focus:ring-[#4CBB17]"
-            />
-            <span className="text-sm font-medium text-[#1c1b1b]">
-              Published
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={form.featured}
-              onChange={(e) => updateField("featured", e.target.checked)}
-              className="w-4 h-4 rounded border-gray-300 text-[#4CBB17] focus:ring-[#4CBB17]"
-            />
-            <span className="text-sm font-medium text-[#1c1b1b]">
-              Featured
-            </span>
-          </label>
+        <div className="flex flex-wrap gap-3 mb-4">
+          {(["live", "coming_soon", "inactive"] as const).map((status) => {
+            const labels = {
+              live: { label: "Live", desc: "Visible and bookable", color: "bg-green-100 text-green-800 border-green-300" },
+              coming_soon: { label: "Coming Soon", desc: "Visible but not bookable", color: "bg-yellow-100 text-yellow-800 border-yellow-300" },
+              inactive: { label: "Inactive", desc: "Hidden from public", color: "bg-gray-100 text-gray-600 border-gray-300" },
+            };
+            const current = !form.active ? "inactive" : !form.published ? "coming_soon" : "live";
+            const isSelected = current === status;
+            const info = labels[status];
+            return (
+              <button
+                key={status}
+                type="button"
+                onClick={() => {
+                  if (status === "live") {
+                    updateField("active", true);
+                    updateField("published", true);
+                  } else if (status === "coming_soon") {
+                    updateField("active", true);
+                    updateField("published", false);
+                  } else {
+                    updateField("active", false);
+                    updateField("published", false);
+                  }
+                }}
+                className={`px-4 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
+                  isSelected ? info.color : "border-[#ebe7e7] text-[#78716c] hover:bg-[#f5f0ee]"
+                }`}
+              >
+                <span className="block font-bold">{info.label}</span>
+                <span className="block text-xs opacity-70">{info.desc}</span>
+              </button>
+            );
+          })}
         </div>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={form.featured}
+            onChange={(e) => updateField("featured", e.target.checked)}
+            className="w-4 h-4 rounded border-gray-300 text-[#4CBB17] focus:ring-[#4CBB17]"
+          />
+          <span className="text-sm font-medium text-[#1c1b1b]">Featured on homepage</span>
+        </label>
       </section>
 
       {/* Highlights & Included Items */}
@@ -378,7 +390,7 @@ export default function TourForm({ tour, mode }: TourFormProps) {
               value={highlightsText}
               onChange={(e) => setHighlightsText(e.target.value)}
               rows={5}
-              className="w-full bg-white border border-[#ebe7e7]/20 rounded-xl py-4 px-5 text-sm text-[#1c1b1b] focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
+              className="w-full bg-white border border-[#d4d4d4] rounded-xl py-4 px-5 text-sm text-[#1c1b1b] focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
               placeholder={"Visit the Zócalo\nExplore Templo Mayor\nTaste local food"}
             />
           </div>
@@ -390,7 +402,7 @@ export default function TourForm({ tour, mode }: TourFormProps) {
               value={includedText}
               onChange={(e) => setIncludedText(e.target.value)}
               rows={5}
-              className="w-full bg-white border border-[#ebe7e7]/20 rounded-xl py-4 px-5 text-sm text-[#1c1b1b] focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
+              className="w-full bg-white border border-[#d4d4d4] rounded-xl py-4 px-5 text-sm text-[#1c1b1b] focus:border-[#4cbb17] focus:ring-0 outline-none transition-colors resize-none"
               placeholder={"Professional guide\nBottled water\nSnacks"}
             />
           </div>

@@ -25,6 +25,8 @@ export async function POST(request: Request) {
     tour_name: string;
   };
 
+  const tour_id = (body as Record<string, unknown>).tour_id as string | undefined;
+
   const token = generateReviewToken();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://emo-tours.vercel.app';
 
@@ -32,7 +34,7 @@ export async function POST(request: Request) {
     .from('reviews')
     .insert({
       booking_id: null,
-      tour_id: null,
+      tour_id: tour_id || null,
       reviewer_name,
       review_token: token,
       status: 'pending',

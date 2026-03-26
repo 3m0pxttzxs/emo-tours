@@ -37,6 +37,27 @@ export default function BookingModule({ tour, departures }: BookingModuleProps) 
     );
   }
 
+  // Coming Soon — visible but not bookable
+  if (!tour.published) {
+    return (
+      <div className="sticky top-[96px]">
+        <div className="bg-white p-8 rounded-xl shadow-[0_8px_24px_rgba(28,27,27,0.04)]">
+          <div className="text-center">
+            <span className="inline-block bg-yellow-100 text-yellow-800 text-xs font-heading font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
+              Coming Soon
+            </span>
+            <p className="font-heading text-2xl font-bold text-[#1c1b1b] mb-2">
+              {formatPrice(tour.base_price)}
+            </p>
+            <p className="text-[#78716c] text-sm leading-relaxed">
+              This tour is not yet available for booking. Follow us on social media for updates.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Request-only panel for custom/private tours
   if (requestOnly) {
     return (

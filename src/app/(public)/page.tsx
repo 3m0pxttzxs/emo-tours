@@ -12,7 +12,6 @@ async function getWeeklyTours(): Promise<Tour[]> {
     const { data, error } = await supabaseAdmin
       .from("tours")
       .select("*")
-      .eq("published", true)
       .eq("active", true)
       .not("weekday", "is", null)
       .order("weekday", { ascending: true });

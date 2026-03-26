@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "Descubre la Ciudad de México con tours únicos y experiencias personalizadas.",
   icons: {
-    icon: "https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/homepage/favicon.png",
+    icon: "/favicon.png",
   },
 };
 

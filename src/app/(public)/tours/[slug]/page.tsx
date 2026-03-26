@@ -19,7 +19,6 @@ async function getTourBySlug(slug: string): Promise<Tour | null> {
       .from("tours")
       .select("*")
       .eq("slug", slug)
-      .eq("published", true)
       .eq("active", true)
       .single();
     if (error || !data) return null;
@@ -67,7 +66,6 @@ export async function generateStaticParams() {
     const { data, error } = await supabaseAdmin
       .from("tours")
       .select("slug")
-      .eq("published", true)
       .eq("active", true);
     if (error || !data) return [];
     return data.map((t: { slug: string }) => ({ slug: t.slug }));

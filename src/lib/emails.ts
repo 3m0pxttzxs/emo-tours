@@ -9,6 +9,7 @@ interface BookingConfirmationParams {
   guestCount: number;
   total: number;
   meetingPoint: string;
+  cancelToken: string;
 }
 
 interface AdminNotificationParams {
@@ -23,19 +24,19 @@ interface AdminNotificationParams {
 
 export async function sendBookingConfirmationEmail(params: BookingConfirmationParams): Promise<void> {
   try {
-    const { customerEmail, customerName, tourTitle, date, time, guestCount, total, meetingPoint } = params;
+    const { customerEmail, customerName, tourTitle, date, time, guestCount, total, meetingPoint, cancelToken } = params;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://emo-tours.vercel.app';
+    const manageLink = `${baseUrl}/booking/manage/${cancelToken}`;
 
     await resend.emails.send({
-      from: 'EMO Tours CDMX <onboarding@resend.dev>',
+      from: 'EMO Tours CDMX <noreply@emo-tours.org>',
       to: customerEmail,
       subject: 'Your EMO Tours booking is confirmed! 🎉',
       html: `
         <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
           <!-- Branded Header -->
           <div style="background: #1c1b1b; padding: 24px 32px; text-align: center;">
-            <h1 style="font-family: 'Space Grotesk', Arial, sans-serif; color: #ffffff; font-size: 20px; margin: 0; letter-spacing: -0.5px;">
-              EMO TOURS <span style="color: #4cbb17;">CDMX</span>
-            </h1>
+            <img src="https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/homepage/logo.png" alt="EMO Tours CDMX" style="height: 48px; width: auto;" />
           </div>
 
           <!-- Body -->
@@ -86,7 +87,7 @@ export async function sendBookingConfirmationEmail(params: BookingConfirmationPa
                 <li>Arrive at the meeting point 10 minutes before the start time</li>
                 <li>Wear comfortable shoes — we will be walking!</li>
                 <li>Bring water and sunscreen</li>
-                <li>If you need to cancel or modify, reply to this email</li>
+                <li>If you need to cancel or reschedule, <a href="${manageLink}" style="color: #4cbb17; text-decoration: underline;">manage your booking here</a></li>
               </ul>
             </div>
           </div>
@@ -112,7 +113,7 @@ export async function sendAdminNotificationEmail(params: AdminNotificationParams
     const adminEmail = process.env.ADMIN_EMAIL || 'inkedsad@gmail.com';
 
     await resend.emails.send({
-      from: 'EMO Tours CDMX <onboarding@resend.dev>',
+      from: 'EMO Tours CDMX <noreply@emo-tours.org>',
       to: adminEmail,
       subject: `New Custom Tour Request from ${customerName}`,
       html: `
@@ -183,16 +184,14 @@ export async function sendReviewRequestEmail(params: ReviewRequestEmailParams): 
     const reviewLink = `${baseUrl}/review/${reviewToken}`;
 
     await resend.emails.send({
-      from: 'EMO Tours CDMX <onboarding@resend.dev>',
+      from: 'EMO Tours CDMX <noreply@emo-tours.org>',
       to: customerEmail,
       subject: `How was your ${tourTitle} experience?`,
       html: `
         <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
           <!-- Header -->
           <div style="background: #1c1b1b; padding: 24px 32px; text-align: center;">
-            <h1 style="font-family: 'Space Grotesk', Arial, sans-serif; color: #ffffff; font-size: 20px; margin: 0; letter-spacing: -0.5px;">
-              EMO TOURS <span style="color: #4cbb17;">CDMX</span>
-            </h1>
+            <img src="https://jqvikplowgcaeawnjyov.supabase.co/storage/v1/object/public/homepage/logo.png" alt="EMO Tours CDMX" style="height: 48px; width: auto;" />
           </div>
 
           <!-- Body -->

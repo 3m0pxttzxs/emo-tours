@@ -15,7 +15,6 @@ async function getPublishedTours(): Promise<Tour[]> {
     const { data, error } = await supabaseAdmin
       .from("tours")
       .select("*")
-      .eq("published", true)
       .eq("active", true);
     if (error || !data) return [];
     return data as Tour[];

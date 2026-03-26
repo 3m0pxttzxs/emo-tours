@@ -1,16 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
+
+interface Tour {
+  id: string;
+  title: string;
+}
 
 export default function GenerateTokenPage() {
   const [reviewerName, setReviewerName] = useState("");
   const [email, setEmail] = useState("");
+  const [tourId, setTourId] = useState("");
   const [tourName, setTourName] = useState("");
+  const [tours, setTours] = useState<Tour[]>([]);
+  const [loadingTours, setLoadingTours] = useState(true);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ link: string; token: string } | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    async function fetchTours() {
+      const { data } = await supabase
+        .from("tours")
+        .select("id, title")
+        .order("title");
+      if (data) setTours(data);
+      setLoadingTours(false);
+    }
+    fetchTours();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,6 +47,7 @@ export default function GenerateTokenPage() {
           reviewer_name: reviewerName,
           email,
           tour_name: tourName,
+          tour_id: tourId,
         }),
       });
 
@@ -92,18 +114,29 @@ export default function GenerateTokenPage() {
             />
           </div>
           <div>
-            <label htmlFor="tourName" className="block text-sm font-bold text-[#1c1b1b] mb-1">
-              Tour Name
+            <label htmlFor="tourSelect" className="block text-sm font-bold text-[#1c1b1b] mb-1">
+              Tour
             </label>
-            <input
-              id="tourName"
-              type="text"
-              value={tourName}
-              onChange={(e) => setTourName(e.target.value)}
+            <select
+              id="tourSelect"
+              value={tourId}
+              onChange={(e) => {
+                const selected = tours.find((t) => t.id === e.target.value);
+                setTourId(e.target.value);
+                setTourName(selected?.title ?? "");
+              }}
               required
-              className="w-full border border-[#ebe7e7] rounded-xl py-2.5 px-4 text-sm text-[#1c1b1b] focus:border-[#4cbb17] outline-none"
-              placeholder="Historic Center Tour"
-            />
+              className="w-full border border-[#ebe7e7] rounded-xl py-2.5 px-4 text-sm text-[#1c1b1b] focus:border-[#4cbb17] outline-none bg-white"
+            >
+              <option value="">
+                {loadingTours ? "Loading tours..." : "Select a tour"}
+              </option>
+              {tours.map((tour) => (
+                <option key={tour.id} value={tour.id}>
+                  {tour.title}
+                </option>
+              ))}
+            </select>
           </div>
 
           {error && (

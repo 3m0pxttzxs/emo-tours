@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { generateDeparturesForTour } from '@/lib/departures/generate';
 
 export async function GET() {
   try {
@@ -76,6 +77,28 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Error creating tour:', error);
       return NextResponse.json({ error: 'Error al crear el tour' }, { status: 500 });
+    }
+
+    // Auto-generate departures if weekday and departure_time are non-null
+    const weekday = body.weekday ?? null;
+    const departureTime = body.departure_time ?? null;
+
+    if (weekday !== null && departureTime !== null) {
+      try {
+        const { created } = await generateDeparturesForTour(
+          tour.id,
+          weekday,
+          departureTime,
+          Number(body.capacity_default) || 12
+        );
+        return NextResponse.json({ ...tour, departures_created: created }, { status: 201 });
+      } catch (genError) {
+        console.error('Error generating departures:', genError);
+        return NextResponse.json(
+          { ...tour, warning: 'Tour creado, pero falló la generación automática de departures' },
+          { status: 201 }
+        );
+      }
     }
 
     return NextResponse.json(tour, { status: 201 });

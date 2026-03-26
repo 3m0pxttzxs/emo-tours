@@ -1,19 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabase/server";
-import DeparturesManager from "@/components/admin/DeparturesManager";
-
-async function getDepartures() {
-  const { data, error } = await supabaseAdmin
-    .from("departures")
-    .select("*, tours(title)")
-    .order("date", { ascending: true })
-    .order("time", { ascending: true });
-
-  if (error) {
-    console.error("Error fetching departures:", error);
-    return [];
-  }
-  return data;
-}
+import DepartureCalendar from "@/components/admin/DepartureCalendar";
 
 async function getTours() {
   const { data, error } = await supabaseAdmin
@@ -29,7 +15,7 @@ async function getTours() {
 }
 
 export default async function AdminDeparturesPage() {
-  const [departures, tours] = await Promise.all([getDepartures(), getTours()]);
+  const tours = await getTours();
 
-  return <DeparturesManager initialDepartures={departures} tours={tours} />;
+  return <DepartureCalendar tours={tours} />;
 }

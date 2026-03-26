@@ -124,7 +124,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   const { data: fullBooking } = await supabaseAdmin
     .from('bookings')
-    .select('customer_full_name, customer_email, guest_count, total')
+    .select('customer_full_name, customer_email, guest_count, total, cancel_token')
     .eq('id', bookingId)
     .single();
 
@@ -138,6 +138,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       guestCount: fullBooking.guest_count,
       total: fullBooking.total,
       meetingPoint: tour.meeting_point,
+      cancelToken: fullBooking.cancel_token,
     });
 
     // Create Google Calendar event (optional — controlled by feature flag)

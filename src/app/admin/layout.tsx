@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -15,6 +16,7 @@ const navGroups = [
   {
     label: "Operations",
     items: [
+      { label: "Departures", href: "/admin/departures", icon: "calendar_month" },
       { label: "Private Requests", href: "/admin/custom-requests", icon: "contact_mail" },
       { label: "Bookings", href: "/admin/bookings", icon: "confirmation_number" },
     ],
@@ -64,9 +66,7 @@ export default function AdminLayout({
         {/* Logo */}
         <div className="px-5 py-4 border-b border-white/10">
           <div className="flex items-center gap-2.5">
-            <span className="text-lg font-heading font-bold tracking-tight">
-              EMO TOURS
-            </span>
+            <Image src="/logo.png" alt="EMO Tours" width={32} height={32} className="h-8 w-auto" />
             <span className="text-[10px] font-medium bg-[#4CBB17] text-white px-2 py-0.5 rounded">
               Admin
             </span>

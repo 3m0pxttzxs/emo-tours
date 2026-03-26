@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -40,9 +41,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-heading font-bold text-white tracking-tight">
-            EMO TOURS
-          </h1>
+          <Image src="/logo.png" alt="EMO Tours CDMX" width={64} height={64} className="h-14 w-auto mx-auto" />
           <span className="inline-block mt-2 text-[10px] font-medium bg-[#4CBB17] text-white px-2.5 py-0.5 rounded">
             Admin Panel
           </span>

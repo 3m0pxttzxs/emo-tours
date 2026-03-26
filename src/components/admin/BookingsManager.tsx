@@ -61,7 +61,8 @@ export default function BookingsManager({ initialBookings }: Props) {
         body: JSON.stringify({ booking_status: "cancelled" }),
       });
       if (res.ok) {
-        await fetchBookings();
+        const updated: BookingWithRelations = await res.json();
+        setBookings((prev) => prev.map((b) => (b.id === id ? updated : b)));
       }
     } finally {
       setLoading(false);
