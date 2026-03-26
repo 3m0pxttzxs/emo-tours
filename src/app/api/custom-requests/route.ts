@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { full_name, email, phone, preferred_date, group_size, interests, notes } =
-      validation.sanitized as Record<string, unknown>;
+      validation.sanitized as { full_name: string; email: string; phone: string; preferred_date: string | null; group_size: number; interests: string; notes: string };
 
     // 2. Create custom_request in Supabase with status='new'
     const { data: customRequest, error: insertError } = await supabaseAdmin
