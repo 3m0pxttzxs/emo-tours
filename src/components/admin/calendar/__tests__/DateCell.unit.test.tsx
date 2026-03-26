@@ -37,14 +37,15 @@ const defaultCellProps = {
 };
 
 describe('DateCell — unit tests (Requisitos 5.1, 5.2)', () => {
-  it('renders with green border class when isToday=true', () => {
-    const { getByTestId } = render(
+  it('renders with green ring and Today label when isToday=true', () => {
+    const { getByTestId, getByText } = render(
       <DateCell {...defaultCellProps} isToday={true} />
     );
 
     const cell = getByTestId('date-cell-2024-06-15');
-    expect(cell.className).toContain('border-[#4CBB17]');
-    expect(cell.className).toContain('border-2');
+    expect(cell.className).toContain('ring-[#4CBB17]');
+    expect(cell.className).toContain('bg-green-50');
+    expect(getByText('Today')).toBeTruthy();
   });
 
   it('renders with reduced opacity class when isPast=true', () => {
@@ -56,13 +57,13 @@ describe('DateCell — unit tests (Requisitos 5.1, 5.2)', () => {
     expect(cell.className).toContain('opacity-50');
   });
 
-  it('does NOT have green border when isToday=false', () => {
+  it('does NOT have green ring when isToday=false', () => {
     const { getByTestId } = render(
       <DateCell {...defaultCellProps} isToday={false} />
     );
 
     const cell = getByTestId('date-cell-2024-06-15');
-    expect(cell.className).not.toContain('border-[#4CBB17]');
+    expect(cell.className).not.toContain('ring-[#4CBB17]');
   });
 
   it('does NOT have reduced opacity when isPast=false', () => {
@@ -97,10 +98,10 @@ describe('CalendarGrid — passes isToday and isPast correctly (Requisitos 5.1, 
       />
     );
 
-    // Today's cell should have the green border
+    // Today's cell should have the green ring and Today label
     const todayCell = getByTestId(`date-cell-${todayStr}`);
-    expect(todayCell.className).toContain('border-[#4CBB17]');
-    expect(todayCell.className).toContain('border-2');
+    expect(todayCell.className).toContain('ring-[#4CBB17]');
+    expect(todayCell.className).toContain('bg-green-50');
 
     // A past date (yesterday) should have reduced opacity
     const yesterday = new Date(today);

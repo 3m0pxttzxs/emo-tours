@@ -69,13 +69,20 @@ export default function DateCell({
         ${!isCurrentMonth ? 'text-gray-300 border-gray-100 bg-gray-50/50' : 'text-gray-700 border-gray-200 bg-white'}
         ${isInRange && !isRangeAnchor ? 'bg-emerald-50 border-emerald-300 ring-1 ring-emerald-200' : ''}
         ${isRangeAnchor ? 'bg-emerald-100 border-emerald-400 ring-2 ring-emerald-300' : ''}
-        ${isToday ? 'border-[#4CBB17] border-2 bg-green-50/30' : ''}
+        ${isToday ? 'ring-2 ring-[#4CBB17] border-[#4CBB17] bg-green-50' : ''}
       `}
     >
       {/* Day number */}
-      <span className={`font-medium ${!isCurrentMonth ? 'text-gray-300' : 'text-gray-900'}`}>
+      <span className={`font-medium ${isToday ? 'text-[#4CBB17] font-bold' : !isCurrentMonth ? 'text-gray-300' : 'text-gray-900'}`}>
         {day}
       </span>
+
+      {/* Today label */}
+      {isToday && (
+        <span className="text-[9px] font-bold uppercase tracking-wider text-[#4CBB17] leading-none">
+          Today
+        </span>
+      )}
 
       {/* Status dot + booking badge row */}
       <div className="flex items-center gap-1">
