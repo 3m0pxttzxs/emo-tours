@@ -45,13 +45,10 @@ export default async function AdminToursPage() {
                 Price
               </th>
               <th className="text-center px-6 py-4 font-bold text-xs uppercase tracking-wider text-[#78716c]">
-                Published
+                Status
               </th>
               <th className="text-center px-6 py-4 font-bold text-xs uppercase tracking-wider text-[#78716c]">
                 Featured
-              </th>
-              <th className="text-center px-6 py-4 font-bold text-xs uppercase tracking-wider text-[#78716c]">
-                Active
               </th>
               <th className="text-right px-6 py-4 font-bold text-xs uppercase tracking-wider text-[#78716c]">
                 Actions
@@ -83,22 +80,23 @@ export default async function AdminToursPage() {
                   ${tour.base_price}
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <Badge
-                    text={tour.published ? "Yes" : "No"}
-                    variant={tour.published ? "success" : "default"}
-                  />
+                  {(() => {
+                    const status = !tour.active
+                      ? { label: "Inactive", style: "bg-gray-100 text-gray-600 border-gray-300" }
+                      : !tour.published
+                      ? { label: "Coming Soon", style: "bg-yellow-100 text-yellow-800 border-yellow-300" }
+                      : { label: "Live", style: "bg-green-100 text-green-800 border-green-300" };
+                    return (
+                      <span className={`inline-block rounded-full text-xs font-bold px-3 py-1 border ${status.style}`}>
+                        {status.label}
+                      </span>
+                    );
+                  })()}
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <Badge
-                    text={tour.featured ? "Yes" : "No"}
-                    variant={tour.featured ? "success" : "default"}
-                  />
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <Badge
-                    text={tour.active ? "Yes" : "No"}
-                    variant={tour.active ? "success" : "error"}
-                  />
+                  {tour.featured && (
+                    <span className="inline-block h-3 w-3 rounded-full bg-[#4cbb17]" title="Featured" />
+                  )}
                 </td>
                 <td className="px-6 py-4 text-right">
                   <Link
@@ -113,7 +111,7 @@ export default async function AdminToursPage() {
             {tours.length === 0 && (
               <tr>
                 <td
-                  colSpan={7}
+                  colSpan={6}
                   className="px-6 py-12 text-center text-[#78716c]"
                 >
                   No tours yet. Create your first tour!
