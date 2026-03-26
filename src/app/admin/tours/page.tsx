@@ -4,6 +4,8 @@ import type { Tour } from "@/types";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 
+export const dynamic = "force-dynamic";
+
 async function getTours(): Promise<Tour[]> {
   const { data, error } = await supabaseAdmin
     .from("tours")
