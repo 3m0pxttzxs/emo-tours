@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { regenerateDepartures } from '@/lib/departures/generate';
 
@@ -58,6 +59,11 @@ export async function PUT(
       console.error('Error updating tour:', error);
       return NextResponse.json({ error: 'Error al actualizar el tour' }, { status: 500 });
     }
+
+    // Revalidate cached public pages so changes are visible immediately
+    revalidatePath('/tours');
+    revalidatePath(`/tours/${tour.slug}`);
+    revalidatePath('/');
 
     // Check if weekday or departure_time changed
     const weekdayChanged = previousTour.weekday !== tour.weekday;
